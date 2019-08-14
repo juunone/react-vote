@@ -1,6 +1,5 @@
-<h1 align="center">Welcome to react-vote 👋</h1>
+<h1 align="center">Who do you want to vote for? 🙊</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/npm/v/react-vote.svg">
   <a href="https://github.com/juunone/react-vote">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
   </a>

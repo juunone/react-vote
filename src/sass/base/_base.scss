@@ -1,0 +1,42 @@
+body{
+    position: relative;
+    background-color: #fff;
+}
+
+button{
+    cursor: pointer;
+
+    &:focus{
+        outline: none;
+    }
+}
+
+.hide {
+    display: none !important;
+}
+
+.cb_clear:before,
+.cb_clear:after {
+    content: '\0020';
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.cb_clear:after {
+    clear: both;
+}
+
+.cb_clear {
+    zoom: 1;
+}
+
+.fll {
+    float: left !important;
+}
+
+.flr {
+    float: right !important;
+}

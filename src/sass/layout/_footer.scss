@@ -1,0 +1,45 @@
+footer {
+  text-align: center;
+
+  .pagination {
+    margin: 1em 0;
+
+    .pagination__prev,
+    .pagination__next {
+      border-radius: 0px;
+      padding: 1em 3.5em;
+      border: none;
+      font-size: 0.7rem;
+      background-color: #777;
+      color: #fff;
+      font-weight: normal;
+
+      &:hover {
+        background-color: #2e2e30;
+      }
+    }
+  }
+
+  form {
+    margin: 1em 0;
+
+    input {
+      font-size: 1rem;
+    }
+
+    .post__write {
+      box-shadow: 1px 1px 1px #3a3001;
+      border-radius: 0px;
+      padding: 0.8em 2.5em;
+      border: none;
+      font-size: 0.9rem;
+      background-color: #00e265;
+      color: #000;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #14ad59;
+      }
+    }
+  }
+}
