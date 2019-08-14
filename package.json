@@ -21,10 +21,12 @@
   ],
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-regular-svg-icons": "^5.10.1",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@hot-loader/react-dom": "^16.9.0-4.12.11",
     "moment": "^2.24.0",
+    "open-color": "^1.7.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",
