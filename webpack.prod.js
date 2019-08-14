@@ -18,7 +18,7 @@ module.exports = merge(common, {
     minimizer: [
       new TerserPlugin({
         chunkFilter: (chunk) => {
-          if (chunk.name === 'vendor') {
+          if (chunk.name === 'vendors') {
             return false;
           }
           return true;

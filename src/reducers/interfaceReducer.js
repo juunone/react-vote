@@ -13,17 +13,6 @@ import {
 } from '../actions/ActionTypes';
 
 const intialState = {
-  currency:'ko-KR',
-  products: {},
-  loading: false,
-  error: null,
-  userName:'최준원',
-  totalPrice:0,
-  headerType:'main',
-  totalSelectedSurgery:0,
-  totalSelectedDiscount:0,
-  selectedSurgery:[],
-  selectedDiscount:[],
   isPurchasing:false
 };
 
