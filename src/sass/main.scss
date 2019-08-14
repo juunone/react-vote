@@ -1,8 +1,5 @@
-@import 
-    'base/reset',
-    'base/base';
+@import url("https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap");
 
-@import 
-    'layout/header',
-    'layout/main',
-    'layout/footer';
+@import "base/reset", "base/normalize";
+
+@import "layout/header", "layout/main", "layout/footer";

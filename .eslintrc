@@ -11,7 +11,8 @@
   },
   "env": {
     "node": true,
-    "commonjs": true
+    "commonjs": true,
+    "browser": true
   },
   "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],

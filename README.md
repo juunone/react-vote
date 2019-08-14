@@ -1,4 +1,4 @@
-<h1 align="center">Who do you want to vote for? 🙊</h1>\
+<h1 align="center">Who do you want to vote for? 🙊</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://travis-ci.com/juunone/react-vote">
@@ -14,7 +14,7 @@
 
 > This is for 'ALL THE PEOPLES' who want vote 📥
 
-### 🏠 [Homepage](https://app.netlify.com/sites/juunone/overview)
+### 🏠 [Homepage](https://react-vote.netlify.com)
 
 ## Install
 
@@ -22,16 +22,22 @@
 yarn install
 ```
 
-## Usage
+## Server
 
 ```sh
-yarn start
+yarn server
 ```
 
-## Run tests
+## Development
 
 ```sh
-yarn test
+yarn dev
+```
+
+## Deploy
+
+```sh
+yarn build
 ```
 
 ## Author
