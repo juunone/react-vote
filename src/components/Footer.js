@@ -5,7 +5,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons'
 export default class Footer extends Component{
   render(){
     return(
-      <div>Vote was made with <FontAwesomeIcon icon={faHeart} color="red" />  by Juunone</div>
+      <footer><p><a href="https://github.com/juunone/react-vote" target="_blank" rel="noopener noreferrer">VOTE</a> was made with <FontAwesomeIcon icon={faHeart} color="red" />  by <a href="https://github.com/juunone" target="_blank" rel="noopener noreferrer">Juunone</a></p></footer>
     )
   }
 }

@@ -20,19 +20,20 @@ module.exports = {
           },
         },
       }, {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
           'sass-loader',
+          'postcss-loader',
         ],
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
       }, {
         test: /\.html$/,
         use: [
+          'ejs-loader', 'extract-loader',
           {
-            loader: "html-loader",
+            loader:'html-loader',
             options: { minimize: true }
           }
         ],

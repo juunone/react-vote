@@ -26,6 +26,9 @@ module.exports = merge(common, {
     hot:true,
     host: '127.0.0.1',
     contentBase: path.join(__dirname, 'dist'),
+    proxy: {
+      "**": "http://localhost:9999"
+    },
     port: port,
     historyApiFallback: true,
     open: true,

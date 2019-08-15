@@ -1,93 +1,42 @@
 import * as types from './ActionTypes'
 
-export const getHeaderItems = (headerType) => {
+export const fetchDataStart = () => {
   return{
-    type:types.HEADER_TYPE,
-    headerType: headerType
-  }
-}
-
-export const selectAction = (key,actionType) => {
-  return{
-    type:types.SELECT_ACTION,
-    key: key,
-    actionType: actionType
-  }
-}
-
-export const completeSelected = (headerType) => {
-  return{
-    type:types.COMPLETE_SELECTED,
-    headerType: headerType
-  }
-}
-
-export const modifyCount = (key,val) => {
-  return{
-    type:types.MODIFY_COUNT,
-    key: key,
-    val:val
-  }
-}
-
-export const removeSelectedSurgery = (key) => {
-  return{
-    type:types.REMOVE_SELECTED_SURGERY,
-    key: key
-  }
-}
-
-export const applyDiscount = (index, targetName) => {
-  return{
-    type:types.APPLY_DISCOUNT,
-    index: index,
-    targetName: targetName
-  }
-}
-
-export const deleteSelectedDiscount = (index) => {
-  return{
-    type:types.DELETE_SELECTED_DISCOUNT,
-    index: index
-  }
-}
-
-export const purchase = () => {
-  return{
-    type:types.PURCHASE
-  }
-}
-
-export const fetchProductsStart = () => {
-  return{
-    type: types.FETCH_PRODUCTS_START
+    type: types.FETCH_DATA_START
   }
 };
 
-export const fetchProductsSuccess = products => {
+export const fetchDataSuccess = data => {
   return{
-    type: types.FETCH_PRODUCTS_SUCCESS,
-    payload: { products }
+    type: types.FETCH_DATA_SUCCESS,
+    payload: { data }
   }
 };
 
-export const fetchProductsFailure = error => {
+export const fetchDataFailure = error => {
   return{
-    type: types.FETCH_PRODUCTS_FAILURE,
+    type: types.FETCH_DATA_FAILURE,
     payload: { error }
   }
 };
 
-export const fetchProducts = () => {
+export const fetchData = () => {
   return dispatch => {
-    dispatch(fetchProductsStart());
-    return fetch("/products")
+    dispatch(fetchDataStart());
+    return fetch("/api/votes", {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
       .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchProductsSuccess(json));
+      .then(res => {
+        return res.json()
       })
-      .catch(error => dispatch(fetchProductsFailure(error)));
+      .then(json => {
+        dispatch(fetchDataSuccess(json));
+      })
+      .catch(error => dispatch(fetchDataFailure(error)));
   };
 }
 
@@ -96,4 +45,11 @@ const handleErrors = (response) => {
     throw Error(response.statusText);
   }
   return response;
+}
+
+export const getHeaderItems = (headerType) => {
+  return{
+    type:types.HEADER_TYPE,
+    headerType: headerType
+  }
 }

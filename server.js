@@ -11,11 +11,13 @@ var port = 9999;
 var voteFile = path.join(__dirname, 'votes.json');
 
 var app = express();
+var appRouter = express.Router();
 
 app.use('/', express.static(path.join(__dirname, 'src')));
 // app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 var readData = function () {
   var defer = Q.defer();
@@ -100,7 +102,7 @@ app.use(function (req, res, next) {
 });
 
 // list
-app.get('/api/votes', function (req, res) {
+appRouter.get('/', function (req, res) {
   getVotes().then(function (data) {
     res.json(data);
   }).fail(function (error) {
@@ -110,7 +112,7 @@ app.get('/api/votes', function (req, res) {
 });
 
 // write
-app.post('/api/votes', function (req, res) {
+appRouter.post('/', function (req, res) {
   readData().then(function (data) {
     var newComment = {
       id: Date.now(),
@@ -132,7 +134,7 @@ app.post('/api/votes', function (req, res) {
 });
 
 // delete
-app.delete('/api/votes/:id', function (req, res) {
+appRouter.delete('/:id', function (req, res) {
   var id = req.params.id;
   
   getDeleteVotes(id).then(function(newData){
@@ -149,7 +151,7 @@ app.delete('/api/votes/:id', function (req, res) {
 });
 
 // get by id
-app.get('/api/votes/:id', function (req, res) {
+appRouter.get('/:id', function (req, res) {
   var id = req.params.id;
 
   getVotes(id).then(function (data) {
@@ -161,7 +163,7 @@ app.get('/api/votes/:id', function (req, res) {
 });
 
 // put
-app.put('/api/votes/:id', function (req, res) {
+appRouter.put('/:id', function (req, res) {
   var id = req.params.id;
   var newData = req.body;
 
@@ -178,7 +180,7 @@ app.put('/api/votes/:id', function (req, res) {
   });
 });
 
-
+app.use('/api/votes', appRouter);
 
 app.listen(port, function () {
   console.log('Server started: http://localhost:' + port + '/');

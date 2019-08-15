@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class Button extends Component{
+export default class Section extends Component{
   constructor(props){
     super(props);        
   }
 
   render(){
-    const {className, ...others} = this.props;
-    return <button className={className} {...others} />
+    const { className, ...others } = this.props;
+    return <section className={className} {...others} />
   }
 }
 
-Button.propTypes = {
+Section.propTypes = {
   className: PropTypes.string,
   others:PropTypes.any
 };

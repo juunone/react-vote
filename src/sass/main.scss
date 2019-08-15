@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Karla|Nanum+Gothic|Open+Sans&display=swap");
 
 @import "base/reset", "base/normalize";
 
-@import "components/button";
+@import "components/button", "components/title", "components/card",
+  "components/modal";
 
 @import "layout/header", "layout/main", "layout/footer";

@@ -1,45 +1,66 @@
+@import "../styles/utils.scss";
+
 body {
-	position: relative;
-	background-color: #fff;
-	font-family: "Nanum Gothic", sans-serif;
-	max-width: 740px;
-	margin: 0 auto;
+  position: relative;
+  background-color: $body-background-color;
+  font-family: "Nanum Gothic", "Open Sans", sans-serif;
+  font-size: 14px;
+  color: $body-font-color;
 }
 
 button {
-	cursor: pointer;
+  cursor: pointer;
 
-	&:focus {
-		outline: none;
-	}
+  &:focus {
+    outline: none;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .hide {
-	display: none !important;
+  display: none !important;
 }
 
 .clearfix:before,
 .clearfix:after {
-	content: "\0020";
-	display: block;
-	overflow: hidden;
-	visibility: hidden;
-	width: 0;
-	height: 0;
+  content: "\0020";
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
 }
 
 .clearfix:after {
-	clear: both;
+  clear: both;
 }
 
 .clearfix {
-	zoom: 1;
+  zoom: 1;
 }
 
 .fll {
-	float: left !important;
+  float: left !important;
 }
 
 .flr {
-	float: right !important;
+  float: right !important;
+}
+
+#react-confirm-alert {
+  .react-confirm-alert-body {
+    width: auto;
+  }
+  .react-confirm-alert-overlay {
+    align-items: baseline;
+    padding-top: 10em;
+    background: none;
+  }
+  .react-confirm-alert-button-group {
+    justify-content: center;
+  }
 }
