@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: ['@babel/polyfill', './src/index.js', './src/sass/main.scss'],
+  entry: ['@babel/polyfill', './src/index.js', './src/sass/main.scss', 'react-confirm-alert/src/react-confirm-alert.css', 'react-datepicker/dist/react-datepicker.css'],
   output: {
     path: path.resolve(__dirname, 'dist'),
   },

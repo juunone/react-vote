@@ -1,15 +1,57 @@
+@import "../styles/utils.scss";
+
 .modal {
-  border: 1px solid #ddd;
-  padding: 7em 10em;
-  text-align: center;
-  background: #fff;
-  input {
-    border: 1px solid #ddd;
-    padding: 0.3em 0.3em;
-    margin-left: 1em;
-  }
-  h2 {
-    font-size: 0.9em;
-    margin-bottom: 1em;
-  }
+	border: 1px solid $border-color-light;
+	padding: 0;
+	text-align: center;
+	background: #f9f9f9;
+
+	.modal__main {
+		padding: 2em;
+
+		label {
+			display: block;
+		}
+
+		input {
+			border: 1px solid $border-color-light;
+			padding: 1em;
+			display: block;
+		}
+
+		.label__alone {
+			margin-bottom: 0.3em;
+		}
+
+		.label__text {
+			margin-top: 1em;
+			input {
+				border-top: none;
+
+				&:first-child {
+					border-top: 1px solid $border-color-light;
+				}
+			}
+		}
+
+		.modal_datepicker {
+			margin-top: 1em;
+
+			.datepicker__title {
+				text-align: left;
+				background: $color-white;
+				border: 1px solid $border-color-light;
+				border-bottom: none;
+				padding: 5px;
+			}
+		}
+	}
+
+	.modal__footer {
+		padding: 1em;
+
+		button {
+			margin: 0 2px;
+		}
+	}
 }

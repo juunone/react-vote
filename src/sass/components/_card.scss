@@ -1,55 +1,55 @@
 @import "../styles/utils.scss";
 
 .container__section {
-  .container__row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
+	.container__row {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
 
-  .container__card {
-    flex: 0 1 auto;
-    text-align: center;
-    text-align: center;
-    box-shadow: 1px 0px 3px rgba(90, 90, 90, 0.4);
-    min-height: 35vh;
-    width: 25%;
-    margin: 2em 0;
-    position: relative;
+	.container__card {
+		flex: 0 1 auto;
+		text-align: center;
+		text-align: center;
+		box-shadow: 1px 0px 3px rgba(90, 90, 90, 0.4);
+		min-height: 35vh;
+		width: 25%;
+		margin: 2em 0;
+		position: relative;
 
-    .container__background {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      min-height: 14vh;
-      background: linear-gradient(to right, #fdd7bf, #f894a4);
-      z-index: -1;
-    }
+		.container__background {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			min-height: 10vh;
+			background: linear-gradient(to right, #fdd7bf, #f894a4);
+			z-index: -1;
+		}
 
-    .container__symbol {
-      border: 1px solid $color-white;
-      width: 3em;
-      height: 3em;
-      margin: 1em auto 0;
-      line-height: 3em;
-      border-radius: 50%;
-      box-shadow: 1px 1px 5px rgba(16, 16, 16, 0.5);
-      font-size: 2rem;
-      background: linear-gradient(45deg, #ffe9fb, #e4fef6);
-    }
+		.container__symbol {
+			border: 1px solid $color-white;
+			width: 3em;
+			height: 3em;
+			margin: 1em auto 0;
+			line-height: 3em;
+			border-radius: 50%;
+			box-shadow: 1px 1px 5px rgba(16, 16, 16, 0.5);
+			font-size: 2rem;
+			background: linear-gradient(45deg, #ffe9fb, #e4fef6);
+		}
 
-    .container__author {
-    }
+		.container__author {
+		}
 
-    .container__card__title {
-      font-size: 1.2rem;
-      font-family: "Karla", sans-serif;
-      padding: 1.2em 0;
-    }
+		.container__card__title {
+			font-size: 1.2rem;
+			font-family: "Karla", sans-serif;
+			padding: 1.2em 0;
+		}
 
-    .container__card__button {
-      font-size: 14px;
-    }
-  }
+		.container__card__button {
+			font-size: 14px;
+		}
+	}
 }
