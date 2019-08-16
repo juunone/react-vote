@@ -6,7 +6,7 @@ import Button from './common/Button';
 import Modal from './common/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import { confirmAlert } from 'react-confirm-alert';
 
 class Nav extends Component{
   constructor(props){
@@ -16,8 +16,8 @@ class Nav extends Component{
     }
   }
 
-  _handleSave = (onClose) => {
-    this.props._handleFetchData();
+  _handleSave = (onClose, data) => {
+    this.props._handleFetchData('POST', data);
     onClose();
   }
   
@@ -74,7 +74,7 @@ Modal.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  _handleFetchData: () => { dispatch(actions.fetchData()) },
+  _handleFetchData: (method, data) => { dispatch(actions.fetchData(method, data)) },
 })
 
 const mapStateToProps = (state) => {

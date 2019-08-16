@@ -16,6 +16,14 @@ button {
   }
 }
 
+input:disabled {
+  background: $border-color-light;
+}
+
+button:disabled {
+  background: $border-color-light !important;
+}
+
 a {
   text-decoration: none;
   color: inherit;

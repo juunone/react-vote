@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner, faPoll } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Title from './common/Title';
-import Button from './common/Button';
 import Section from './common/Section';
+import Card from './common/Card';
+import Modal from './common/Modal';
+import { confirmAlert } from 'react-confirm-alert';
 
 class VoteList extends Component{
   constructor(props) {
@@ -21,7 +23,43 @@ class VoteList extends Component{
     this.props._handleFetchData();
   }
 
-  _renderData(onGoing, closed) {
+  _closeModal = (onClose) => {
+    onClose();
+  }
+
+  _handleDelete = (onClose, data) => {
+    this.props._handleFetchData('DELETE', data);
+    onClose();
+  }
+
+  _handleSave = (onClose, data) => {
+    this.props._handleFetchData('PUT', data);
+    onClose();
+  }
+
+  _settingVote = (type, data) => {
+    return( 
+      confirmAlert({
+        closeOnEscape: true,
+        closeOnClickOutside: false,
+        customUI: ({ onClose }) => {              
+          return (
+            <Modal 
+              type={type}
+              data={data}
+              voteCnt={Object.keys(data.contents).length}
+              onClose={onClose} 
+              closeModal={this._closeModal} 
+              handleSave={this._handleSave} 
+              handleDelete={this._handleDelete} 
+            />
+          )
+        }      
+      })
+    )
+  }
+
+  _renderData(standing, onGoing, closed) {
     const chunk = (array, size) => {
       return array.reduce((chunks, item, i) => {
         if (i % size === 0) chunks.push([item]);
@@ -30,28 +68,22 @@ class VoteList extends Component{
       }, []);
     }
 
-    const makeHtml = (data) => {
-      return data.map(v => {
-        return (
-          <div key={`${v.id}_key`} className={'container__card'}>
-            <div className={'container__background'}></div>
-            <div className={'container__symbol'}>
-              <FontAwesomeIcon icon={faPoll} color={'red'} />
-            </div>
-            <h3 className={'container__card__title'}>{v.title}</h3>
-            <Button className='container__card__button'>VOTE</Button>
-          </div>
-        )
-      });
-    }
-
+    const chunkStanding = chunk(standing, 3);
     const chunkOnGoing = chunk(onGoing, 3);
     const chunkClosed = chunk(closed, 3);
+
+    const standingData = chunkStanding.map((v,i) => {
+      return (
+        <div key={i} className={"container__row"}>
+          <Card data={chunkStanding[i]} type='standing' settingVote={this._settingVote} />
+        </div>
+      )
+    });
 
     const onGoingData = chunkOnGoing.map((v,i) => {
       return (
         <div key={i} className={"container__row"}>
-          {makeHtml(chunkOnGoing[i])}
+          <Card data={chunkOnGoing[i]} type='ongoing' />
         </div>
       )
     });
@@ -59,19 +91,19 @@ class VoteList extends Component{
     const closedData = chunkClosed.map((v,i) => {
       return (
         <div key={i} className={"container__row"}>
-          {makeHtml(chunkClosed[i])}
+          <Card data={chunkClosed[i]} type='closed' />
         </div>
       )
     });
 
-    onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
-    closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
-    return [onGoingData, closedData];
+    if(standing.length) standingData.unshift(<Title key="standing_title" className="container__title">Standing vote</Title>);
+    if(onGoing.length) onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
+    if(closed.length) closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
+    return [standingData, onGoingData, closedData];
   }
 
   render(){
-    console.log('thisProps ::',this.props);
-    const {data, onGoingData, closedData, error , loading} = this.props;
+    const {standingData, onGoingData, closedData, error , loading} = this.props;
     if (error) {
       return <div className={'noItems'}>네트워크 오류입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
     }
@@ -83,7 +115,7 @@ class VoteList extends Component{
     if(onGoingData && closedData) {
       return(
         <Section className={'container__section'}>
-          {this._renderData(onGoingData, closedData)}
+          {this._renderData(standingData, onGoingData, closedData)}
         </Section>
       )
     }
@@ -97,6 +129,7 @@ class VoteList extends Component{
 }
 
 VoteList.propTypes = {
+  standingData: PropTypes.array,
   onGoingData: PropTypes.array,  
   closedData: PropTypes.array,  
   data: PropTypes.array,
@@ -106,7 +139,7 @@ VoteList.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  _handleFetchData: () => { dispatch(actions.fetchData()) },
+  _handleFetchData: (method, data) => { dispatch(actions.fetchData(method, data)) },
 })
 
 const mapStateToProps = (state) => {

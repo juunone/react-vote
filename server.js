@@ -92,7 +92,7 @@ var pushDataById = function (data, id, newData) {
   data[getDataIdx].author = newData.author;
   data[getDataIdx].startedAt = Number(newData.startedAt);
   data[getDataIdx].endedAt = Number(newData.endedAt);
-  data[getDataIdx].id = Number(id);
+  data[getDataIdx].contents = JSON.parse(newData.contents);
   return data;
 };
 
@@ -114,15 +114,17 @@ appRouter.get('/', function (req, res) {
 // write
 appRouter.post('/', function (req, res) {
   readData().then(function (data) {
-    var newComment = {
+    var newData = {
       id: Date.now(),
       author: req.body.author,
       title: req.body.title,
+      password: req.body.password,
+      contents: JSON.parse(req.body.contents),
       startedAt: Number(req.body.startedAt),
       endedAt: Number(req.body.endedAt)
     };
 
-    data.unshift(newComment);
+    data.unshift(newData);
 
     return writeData(data).then(function () {
       res.json(data);

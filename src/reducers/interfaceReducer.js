@@ -23,15 +23,23 @@ const extractData = (res) => {
   const data = res;
   if(data && data.length){
     const nowDate = new Date().getTime();
+    let standingData = [];
     let onGoingData = [];
     let closedData = [];
 
     data.map(v => {
-      if(v.endedAt > nowDate) onGoingData.push(v);
-      else closedData.push(v);
+      if(v.startedAt > nowDate){
+        standingData.push(v);
+      } else {
+        if (v.startedAt < nowDate && v.endedAt > nowDate) {
+          onGoingData.push(v);
+        } else {
+          closedData.push(v);
+        }
+      }
     });
 
-    return { onGoingData, closedData };
+    return { standingData, onGoingData, closedData };
   }
 }
 

@@ -1,57 +1,101 @@
 @import "../styles/utils.scss";
+@import "~open-color/open-color";
 
 .modal {
-	border: 1px solid $border-color-light;
-	padding: 0;
-	text-align: center;
-	background: #f9f9f9;
+  border: 1px solid $border-color-light;
+  padding: 0;
+  text-align: center;
+  background: #f9f9f9;
+  min-width: 300px;
 
-	.modal__main {
-		padding: 2em;
+  .modal__main {
+    padding: 2em;
+    overflow-y: scroll;
+    height: 60vh;
 
-		label {
-			display: block;
-		}
+    .form-errors {
+      p {
+        margin: 5px 0 1em;
+        font-size: 0.6rem;
+        color: $oc-red-6;
+      }
+    }
 
-		input {
-			border: 1px solid $border-color-light;
-			padding: 1em;
-			display: block;
-		}
+    label {
+      display: block;
+    }
 
-		.label__alone {
-			margin-bottom: 0.3em;
-		}
+    input {
+      border: 1px solid $border-color-light;
+      padding: 1em 0;
+      width: 100%;
+      display: block;
+      text-indent: 10px;
 
-		.label__text {
-			margin-top: 1em;
-			input {
-				border-top: none;
+      &.form-group__has-error {
+        border: 1px solid $oc-red-6;
+      }
+    }
 
-				&:first-child {
-					border-top: 1px solid $border-color-light;
-				}
-			}
-		}
+    .label__alone {
+      margin-bottom: 0.3em;
+    }
 
-		.modal_datepicker {
-			margin-top: 1em;
+    .label__text {
+      margin-top: 1em;
+      input {
+        border-top: none;
 
-			.datepicker__title {
-				text-align: left;
-				background: $color-white;
-				border: 1px solid $border-color-light;
-				border-bottom: none;
-				padding: 5px;
-			}
-		}
-	}
+        &:first-child {
+          border-top: 1px solid $border-color-light;
+        }
 
-	.modal__footer {
-		padding: 1em;
+        &.form-group__has-error {
+          &:first-child {
+            border-top: 1px solid $oc-red-6;
+          }
+        }
+      }
+    }
 
-		button {
-			margin: 0 2px;
-		}
-	}
+    .label__button {
+      margin-top: 0;
+      border: 1px solid $border-color-light;
+      border-top: none;
+      width: 100%;
+    }
+
+    .modal_datepicker {
+      margin-top: 1em;
+
+      .react-datepicker-wrapper {
+        width: 100%;
+
+        .react-datepicker__input-container {
+          width: 100%;
+
+          input {
+            width: 99.5%;
+          }
+        }
+      }
+
+      .datepicker__title {
+        font-size: 0.5rem;
+        text-align: left;
+        background: $color-white;
+        border: 1px solid $border-color-light;
+        border-bottom: none;
+        padding: 5px;
+      }
+    }
+  }
+
+  .modal__footer {
+    padding: 1em;
+
+    button {
+      margin: 0 2px;
+    }
+  }
 }

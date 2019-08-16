@@ -20,14 +20,19 @@ export const fetchDataFailure = error => {
   }
 };
 
-export const fetchData = () => {
+export const fetchData = (method = 'GET', data) => {
+  let header = {'Content-Type':'application/json', 'Accept': 'application/json'};
+  if(data && method !== 'DELETE'){            
+    header = {'Content-Type':'application/x-www-form-urlencoded'}
+  }  
   return dispatch => {
     dispatch(fetchDataStart());
-    return fetch("/api/votes", {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+    return fetch(`/api/votes/${data ? data.id : ''}`, {
+      headers : header,
+      method: method && method,
+      body: data && method !== 'DELETE' ? 
+        `author=${data.author}&title=${data.title}&password=${data.password}&contents=${JSON.stringify(data.contents)}&startedAt=${data.startedAt}&endedAt=${data.endedAt}` : 
+        undefined
     })
       .then(handleErrors)
       .then(res => {
