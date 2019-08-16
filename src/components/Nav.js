@@ -28,12 +28,15 @@ class Nav extends Component{
     onClose();
   }
   
-  _addContent = () => {
-    this.setState({
-      voteCnt: this.state.voteCnt + 1
-    });
-
-    if(this.state.voteCnt > 6) return;
+  _addContent = () => {    
+    if(this.state.voteCnt > 6){
+      return;
+    } else {
+      this.setState({
+        voteCnt: this.state.voteCnt + 1
+      });
+    }
+    
     this._createVote('create');
   };
 

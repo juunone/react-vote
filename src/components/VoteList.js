@@ -23,7 +23,10 @@ class VoteList extends Component{
     this.props._handleFetchData();
   }
 
-  _closeModal = (onClose) => {
+  _closeModal = (onClose, data) => {
+    this.setState({
+      voteCnt: Object.keys(data.contents).length
+    });
     onClose();
   }
 
@@ -37,21 +40,40 @@ class VoteList extends Component{
     onClose();
   }
 
-  _settingVote = (type, data) => {
+  _addContent = (data) => {            
+    if(this.state.voteCnt > 6){
+      return;
+    } else {
+      this.setState({
+        voteCnt: this.state.voteCnt + 1
+      });
+    }
+
+    this._settingVote('setting', data);
+  };
+
+  _settingVote = (type, data) => {    
+    if(!this.state){
+      this.setState({
+        voteCnt: Object.keys(data.contents).length
+      }); 
+    }    
+
     return( 
       confirmAlert({
-        closeOnEscape: true,
+        closeOnEscape: false,
         closeOnClickOutside: false,
         customUI: ({ onClose }) => {              
           return (
             <Modal 
               type={type}
               data={data}
-              voteCnt={Object.keys(data.contents).length}
+              voteCnt={this.state ? this.state.voteCnt : Object.keys(data.contents).length}
               onClose={onClose} 
               closeModal={this._closeModal} 
               handleSave={this._handleSave} 
               handleDelete={this._handleDelete} 
+              addContent={this._addContent} 
             />
           )
         }      
@@ -96,7 +118,7 @@ class VoteList extends Component{
       )
     });
 
-    if(standing.length) standingData.unshift(<Title key="standing_title" className="container__title">Standing vote</Title>);
+    if(standing.length) standingData.unshift(<Title key="standing_title" className="container__title">Staging vote</Title>);
     if(onGoing.length) onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
     if(closed.length) closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
     return [standingData, onGoingData, closedData];

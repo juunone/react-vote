@@ -63,8 +63,6 @@ export default class Modal extends Component{
     } else {
       return alert('비밀번호가 일치하지 않습니다.');
     }
-
-    
   }
 
   _calculateMinTime = date => {
@@ -120,15 +118,15 @@ export default class Modal extends Component{
     switch(fieldName) {
     case 'title':
       titleValid = value.match(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/);
-      fieldValidationErrors.title = titleValid ? '' : '특수문자를 제외한 한글,영문,숫자만 압력 가능합니다.';
+      fieldValidationErrors.title = titleValid ? '' : '특수문자를 제외한 한글,영문,숫자만 입력 가능합니다.';
       break;
     case 'author':
       authorValid = value.match(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/);
-      fieldValidationErrors.author = authorValid ? '': '특수문자를 제외한 한글,영문,숫자만 압력 가능합니다.';
+      fieldValidationErrors.author = authorValid ? '': '특수문자를 제외한 한글,영문,숫자만 입력 가능합니다.';
       break;
     case 'password':
       passwordValid = value.match(/^[a-z|A-Z|0-9|*]+$/);
-      fieldValidationErrors.password = passwordValid ? '': '특수문자를 제외한 영문,숫자만 압력 가능합니다.';
+      fieldValidationErrors.password = passwordValid ? '': '특수문자를 제외한 영문,숫자만 입력 가능합니다.';
       break;
     case 'contents':
       contentsValid =  true;
@@ -218,7 +216,7 @@ export default class Modal extends Component{
   }
 
   render(){
-    const {type, voteCnt, onClose, addContent, closeModal} = this.props;
+    const {data, type, voteCnt, onClose, addContent, closeModal} = this.props;
     return(      
       <div className={'modal'}>
         <div className={'modal__main'}>
@@ -268,7 +266,7 @@ export default class Modal extends Component{
             <FormErrors formErrors={this.state.formErrors.contents} />
           </label>
           <label className={'label__button'}>
-            <Button className={'add__button'} onClick={(()=>{addContent()})} style={{display: type === 'create' ? 'block' : 'none'}}>
+            <Button className={'add__button'} onClick={(()=>{addContent(data)})}>
               <FontAwesomeIcon icon={faPlus} /> 항목 추가
             </Button>
           </label>
@@ -303,7 +301,7 @@ export default class Modal extends Component{
           </div>
         </div>
         <div className={"modal__footer"}>
-          <Button className={'default__button'} onClick={(()=>{closeModal(onClose)})}>닫기</Button>
+          <Button className={'default__button'} onClick={(()=>{closeModal(onClose, data)})}>닫기</Button>
           <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button>
           {type === 'setting' && <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button>}
         </div>
