@@ -18,6 +18,7 @@
 				margin: 5px 0 1em;
 				font-size: 0.6rem;
 				color: $oc-red-6;
+				text-align: left;
 			}
 		}
 
@@ -61,7 +62,7 @@
 		.label__button {
 			margin-top: 0;
 			border: 1px solid $border-color-light;
-			border-top: none;
+			// border-top: none;
 			width: 100%;
 		}
 

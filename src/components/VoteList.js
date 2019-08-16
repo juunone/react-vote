@@ -23,13 +23,6 @@ class VoteList extends Component{
     this.props._handleFetchData();
   }
 
-  _closeModal = (onClose, data) => {
-    this.setState({
-      voteCnt: Object.keys(data.contents).length
-    });
-    onClose();
-  }
-
   _handleDelete = (onClose, data) => {
     this.props._handleFetchData('DELETE', data);
     onClose();
@@ -40,25 +33,7 @@ class VoteList extends Component{
     onClose();
   }
 
-  _addContent = (data) => {            
-    if(this.state.voteCnt > 6){
-      return;
-    } else {
-      this.setState({
-        voteCnt: this.state.voteCnt + 1
-      });
-    }
-
-    this._settingVote('setting', data);
-  };
-
   _settingVote = (type, data) => {    
-    if(!this.state){
-      this.setState({
-        voteCnt: Object.keys(data.contents).length
-      }); 
-    }    
-
     return( 
       confirmAlert({
         closeOnEscape: false,
@@ -68,12 +43,9 @@ class VoteList extends Component{
             <Modal 
               type={type}
               data={data}
-              voteCnt={this.state ? this.state.voteCnt : Object.keys(data.contents).length}
               onClose={onClose} 
-              closeModal={this._closeModal} 
               handleSave={this._handleSave} 
               handleDelete={this._handleDelete} 
-              addContent={this._addContent} 
             />
           )
         }      

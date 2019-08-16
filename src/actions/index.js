@@ -21,13 +21,15 @@ export const fetchDataFailure = error => {
 };
 
 export const fetchData = (method = 'GET', data) => {
+  let id = "";
+  if(method === 'PUT' || method === 'DELETE') id = data && data.id;
   let header = {'Content-Type':'application/json', 'Accept': 'application/json'};
   if(data && method !== 'DELETE'){            
     header = {'Content-Type':'application/x-www-form-urlencoded'}
   }  
   return dispatch => {
     dispatch(fetchDataStart());
-    return fetch(`/api/votes/${data ? data.id : ''}`, {
+    return fetch(`/api/votes/${id}`, {
       headers : header,
       method: method && method,
       body: data && method !== 'DELETE' ? 

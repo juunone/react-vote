@@ -11,35 +11,13 @@ import { confirmAlert } from 'react-confirm-alert';
 class Nav extends Component{
   constructor(props){
     super(props);
-    this.state = {
-      voteCnt:3
-    }
   }
 
   _handleSave = (onClose, data) => {
     this.props._handleFetchData('POST', data);
     onClose();
   }
-  
-  _closeModal = (onClose) => {
-    this.setState({
-      voteCnt: 3
-    });
-    onClose();
-  }
-  
-  _addContent = () => {    
-    if(this.state.voteCnt > 6){
-      return;
-    } else {
-      this.setState({
-        voteCnt: this.state.voteCnt + 1
-      });
-    }
     
-    this._createVote('create');
-  };
-
   _createVote = (type) => {
     return( 
       confirmAlert({
@@ -49,10 +27,7 @@ class Nav extends Component{
           return (
             <Modal 
               type={type}
-              voteCnt={this.state.voteCnt} 
               onClose={onClose} 
-              addContent={this._addContent} 
-              closeModal={this._closeModal}
               handleSave={this._handleSave}
             />
           )
@@ -72,10 +47,6 @@ class Nav extends Component{
   }
 }
 
-Modal.propTypes = {
-  _handleFetchData: PropTypes.func,   
-};
-
 const mapDispatchToProps = dispatch => ({
   _handleFetchData: (method, data) => { dispatch(actions.fetchData(method, data)) },
 })
@@ -91,5 +62,8 @@ const mapStateToProps = (state) => {
   return obj;
 };
 
+Modal.propTypes = {
+  _handleFetchData: PropTypes.func,   
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

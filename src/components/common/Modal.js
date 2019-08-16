@@ -11,6 +11,8 @@ export default class Modal extends Component{
   constructor(props){
     super(props);
     this.state = {
+      categoryLimit: 6,
+      voteCnt: this.props.data ? Object.keys(this.props.data.contents).length : 3,
       startedAt: this.props.data ? this.props.data.startedAt : moment(new Date()).add({minutes: 30}).toDate(),
       endedAt: this.props.data ? this.props.data.endedAt : moment(new Date()).add({hours: 1}).toDate(),
       minTime: this._calculateMinTime(new Date()),
@@ -46,7 +48,7 @@ export default class Modal extends Component{
   };
 
   _save = (onClose) => {
-    const { handleSave } = this.props;
+    const { type, handleSave } = this.props;
     const { title, author, password, contents, startedAt, endedAt } = this.state;
     const data = {
       id: this.props.data && this.props.data.id,
@@ -58,9 +60,11 @@ export default class Modal extends Component{
       endedAt: typeof endedAt !== 'number' ? endedAt.getTime() : endedAt
     };
 
-    if(this.props.data.password === password) {
-      if(this.state.formValid === true) handleSave(onClose, data);
-    } else {
+    if(type === 'create' && this.state.formValid === true){
+      handleSave(onClose, data);
+    } else if(this.props.data.password === password && this.state.formValid === true) {
+      handleSave(onClose, data);
+    }else{
       return alert('비밀번호가 일치하지 않습니다.');
     }
   }
@@ -93,7 +97,9 @@ export default class Modal extends Component{
     const name = e.target.name;
     const value = e.target.value;
     const contents = {...this.state.contents}
-    contents[`value-${i}`] = e.target.value;
+    if(!contents[`category-${i}`]) contents[`category-${i}`] = {};
+    contents[`category-${i}`].value = e.target.value;
+    contents[`category-${i}`].voter = [];
 
     if(i){
       this.setState({
@@ -130,14 +136,14 @@ export default class Modal extends Component{
       break;
     case 'contents':
       contentsValid =  true;
-      fieldValidationErrors.contentsObj[`value-${index}`] = value;
+      if(!fieldValidationErrors.contentsObj[`category-${index}`]) fieldValidationErrors.contentsObj[`category-${index}`] = {};
+      fieldValidationErrors.contentsObj[`category-${index}`].value = value;
+      fieldValidationErrors.contentsObj[`category-${index}`].voter = [];
       Object.keys(fieldValidationErrors.contentsObj).forEach((v)=>{
-        if(this.props.voteCnt !== Object.keys(fieldValidationErrors.contentsObj).length){
+        if(this.state.voteCnt !== Object.keys(fieldValidationErrors.contentsObj).length){
           contentsValid = false;
-        }else{
-          if(fieldValidationErrors.contentsObj[v] === ""){
-            contentsValid = false;
-          }
+        }else if(fieldValidationErrors.contentsObj[v].value === ""){          
+          contentsValid = false;
         }
       });
       fieldValidationErrors.contents = contentsValid ? '': '항목을 모두 입력해주세요.';
@@ -170,12 +176,10 @@ export default class Modal extends Component{
     let fieldValidationErrors = this.state.formErrors;
     if(Object.keys(fieldValidationErrors.contentsObj).length){
       Object.keys(fieldValidationErrors.contentsObj).forEach((v)=>{
-        if(this.props.voteCnt !== Object.keys(fieldValidationErrors.contentsObj).length){
+        if(this.state.voteCnt !== Object.keys(fieldValidationErrors.contentsObj).length){
           contentsValid = false;
-        }else{
-          if(fieldValidationErrors.contentsObj[v] === ""){
-            contentsValid = false;
-          }
+        }else if(fieldValidationErrors.contentsObj[v].value === ""){
+          contentsValid = false;
         }
       });
     }else{
@@ -203,7 +207,8 @@ export default class Modal extends Component{
           name="contents" 
           placeholder="항목 입력" 
           maxLength="10" 
-          value={this.state.contents[`value-${i+1}`] || ''} 
+          autoComplete="off"
+          value={this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : ''} 
           onChange={(event) => this._handleUserInput(event,i+1)} 
         />
       );
@@ -215,8 +220,19 @@ export default class Modal extends Component{
     return(error.length === 0 ? '' : 'has-error');
   }
 
+  _addContent() {
+    const newCnt = this.state.voteCnt;
+    if(newCnt >= this.state.categoryLimit){
+      return;
+    } else {
+      this.setState({
+        voteCnt: newCnt + 1
+      });
+    }    
+  }
+
   render(){
-    const {data, type, voteCnt, onClose, addContent, closeModal} = this.props;
+    const {type, onClose} = this.props;
     return(      
       <div className={'modal'}>
         <div className={'modal__main'}>
@@ -260,13 +276,14 @@ export default class Modal extends Component{
               value={this.state.password} 
               onChange={(event) => this._handleUserInput(event)} 
             />
+            <FormErrors formErrors={this.state.formErrors.password} />
           </label>
           <label className={'label__text'}>
-            {this._makeVoteContent(voteCnt)}
+            {this._makeVoteContent(this.state.voteCnt)}
             <FormErrors formErrors={this.state.formErrors.contents} />
           </label>
-          <label className={'label__button'}>
-            <Button className={'add__button'} onClick={(()=>{addContent(data)})}>
+          <label className={'label__button'} style={{display: this.state.voteCnt >= this.state.categoryLimit ? 'none' : 'block'}}>
+            <Button className={'add__button'} onClick={(()=>{this._addContent()})}>
               <FontAwesomeIcon icon={faPlus} /> 항목 추가
             </Button>
           </label>
@@ -301,7 +318,7 @@ export default class Modal extends Component{
           </div>
         </div>
         <div className={"modal__footer"}>
-          <Button className={'default__button'} onClick={(()=>{closeModal(onClose, data)})}>닫기</Button>
+          <Button className={'default__button'} onClick={(()=>{onClose()})}>닫기</Button>
           <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button>
           {type === 'setting' && <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button>}
         </div>
@@ -313,10 +330,7 @@ export default class Modal extends Component{
 Modal.propTypes = {
   data: PropTypes.object, 
   type: PropTypes.string, 
-  voteCnt: PropTypes.number, 
   onClose: PropTypes.func, 
-  addContent: PropTypes.func, 
-  closeModal: PropTypes.func,
   handleSave: PropTypes.func,
   handleDelete: PropTypes.func
 };
