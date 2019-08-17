@@ -26,7 +26,7 @@
       }
     }
 
-    .password {
+    .result__input {
       border: 1px solid $border-color-light;
       padding: 1em 0;
       width: 100%;
@@ -45,6 +45,10 @@
 
       .categories__contents {
         padding: 0.5em;
+
+        &.pointer {
+          cursor: pointer;
+        }
       }
       .voter__list {
         border-top: 1px solid $border-color-light;
@@ -66,19 +70,19 @@
     }
   }
 
+  .form-errors {
+    p {
+      margin: 5px 0 1em;
+      font-size: 0.6rem;
+      color: $oc-red-6;
+      text-align: left;
+    }
+  }
+
   .modal__main {
     padding: 2em;
     overflow-y: scroll;
     height: 60vh;
-
-    .form-errors {
-      p {
-        margin: 5px 0 1em;
-        font-size: 0.6rem;
-        color: $oc-red-6;
-        text-align: left;
-      }
-    }
 
     label {
       display: block;

@@ -26,6 +26,7 @@ class Nav extends Component{
         customUI: ({ onClose }) => {              
           return (
             <Modal 
+              data={{}}
               type={type}
               onClose={onClose} 
               handleSave={this._handleSave}

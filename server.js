@@ -47,7 +47,7 @@ var writeData = function (data) {
   return defer.promise;
 };
 
-var getVotes = function (id, method = 'get', newData) {
+var getVotes = function (id, method = 'get', newData, path) {
   if(id && method !== "put") {
     return readData().then(function (data) {
       return getDataById(data, id);
@@ -58,7 +58,7 @@ var getVotes = function (id, method = 'get', newData) {
     });
   } else {
     return readData().then(function (data) {
-      return pushDataById(data, id, newData);
+      return pushDataById(data, id, newData, path);
     });
   }
 };
@@ -84,17 +84,23 @@ var getDataById = function (data, id) {
   return data[getDataIdx];
 };
 
-var pushDataById = function (data, id, newData) {
+var pushDataById = function (data, id, newData, path) {
   var getDataIdx = data.findIndex(v => {
     if(String(v.id) === id) return v;
   });
   var topVote = getTopAcquisitionVote(JSON.parse(newData.contents));
-  data[getDataIdx].title = newData.title;
-  data[getDataIdx].author = newData.author;
-  data[getDataIdx].startedAt = Number(newData.startedAt);
-  data[getDataIdx].endedAt = Number(newData.endedAt);
-  data[getDataIdx].contents = JSON.parse(newData.contents);
-  data[getDataIdx].topAcquisitionVote = topVote;
+
+  if(path){
+    data[getDataIdx].contents = JSON.parse(newData.contents);
+    data[getDataIdx].topAcquisitionVote = topVote;
+  }else{
+    data[getDataIdx].title = newData.title;
+    data[getDataIdx].author = newData.author;
+    data[getDataIdx].startedAt = Number(newData.startedAt);
+    data[getDataIdx].endedAt = Number(newData.endedAt);
+    data[getDataIdx].contents = JSON.parse(newData.contents);
+    data[getDataIdx].topAcquisitionVote = topVote;
+  }
   return data;
 };
 
@@ -187,7 +193,25 @@ appRouter.put('/:id', function (req, res) {
   var id = req.params.id;
   var newData = req.body;
 
-  getVotes(id,'put', newData).then(function (r) {
+  getVotes(id, 'put', newData).then(function (r) {
+    return writeData(r).then(function () {
+      res.json(r);
+    }).fail(function (error) {
+      console.error(error);
+      res.sendStatus(500);
+    });
+  }).fail(function (error) {
+    console.error(error);
+    res.sendStatus(500);
+  });
+});
+
+//poll
+appRouter.put('/poll/:id', function (req, res) {
+  var id = req.params.id;
+  var newData = req.body;
+
+  getVotes(id, 'put', newData, 'poll').then(function (r) {
     return writeData(r).then(function () {
       res.json(r);
     }).fail(function (error) {

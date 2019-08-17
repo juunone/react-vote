@@ -10,24 +10,27 @@ import { faPlus, faUser, faCheck, faVoteYea } from '@fortawesome/free-solid-svg-
 export default class Modal extends Component{
   constructor(props){
     super(props);
+    const copyData = JSON.parse(JSON.stringify(this.props.data));
+    const isExistData = Object.keys(copyData).length;
     this.state = {
       categoryLimit: 6,
-      voteCnt: this.props.data ? Object.keys(this.props.data.contents).length : 3,
-      startedAt: this.props.data ? this.props.data.startedAt : moment(new Date()).add({minutes: 30}).toDate(),
-      endedAt: this.props.data ? this.props.data.endedAt : moment(new Date()).add({hours: 1}).toDate(),
+      voteCnt: isExistData ? Object.keys(copyData.contents).length : 3,
+      startedAt: isExistData ? copyData.startedAt : moment(new Date()).add({minutes: 30}).toDate(),
+      endedAt: isExistData ? copyData.endedAt : moment(new Date()).add({hours: 1}).toDate(),
       minTime: this._calculateMinTime(new Date()),
-      title: this.props.data ? this.props.data.title : "",
-      author: this.props.data? this.props.data.author : "",
+      title: isExistData ? copyData.title : "",
+      author: isExistData && this.props.type !== 'ongoing' ? copyData.author : "",
       password:"",
-      contents: this.props.data ? this.props.data.contents : {},
-      titleValid: this.props.data ? true : false,
-      authorValid: this.props.data ? true : false,
-      passwordValid: false,
-      contentsValid: this.props.data ? true : false,
+      contents: isExistData ? copyData.contents : {},
+      titleValid: isExistData ? true : false,
+      authorValid: isExistData && this.props.type !== 'ongoing' ? true : false,
+      passwordValid: this.props.type !== 'ongoing' ? false : true,
+      contentsValid: isExistData ? true : false,
       startedAtValid: true,
       endedAtValid: true,
       formValid: false,
-      formErrors: {title:'', author: '', password:'', contents:'', contentsObj: this.props.data ? this.props.data.contents : {}, startedAt:'', endedAt: ''}
+      votingValid: this.props.type !== 'ongoing' ? true : false,
+      formErrors: {title:'', author: '', password:'', contents:'', contentsObj: isExistData ? copyData.contents : {}, startedAt:'', endedAt: ''}
     }
   }
 
@@ -46,6 +49,17 @@ export default class Modal extends Component{
     } 
     else return alert('비밀번호가 일치하지 않습니다.');
   };
+
+  _poll = (onClose) => {
+    const { handleSave } = this.props;
+    const { contents } = this.state;
+    const data = {
+      id: this.props.data && this.props.data.id,
+      contents:contents,
+    };
+
+    handleSave(onClose, data, 'poll/');
+  }
 
   _save = (onClose) => {
     const { type, handleSave } = this.props;
@@ -120,18 +134,21 @@ export default class Modal extends Component{
     let contentsValid = this.state.contentsValid;
     let startedAtValid = this.state.startedAtValid;
     let endedAtValid = this.state.endedAtValid;
+    const titleReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/;
+    const authorReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|*]+$/;
+    const passwordReg = /^[a-z|A-Z|0-9|*]+$/;
   
     switch(fieldName) {
     case 'title':
-      titleValid = value.match(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/);
+      titleValid = titleReg.test(value);
       fieldValidationErrors.title = titleValid ? '' : '특수문자를 제외한 한글,영문,숫자만 입력 가능합니다.';
       break;
     case 'author':
-      authorValid = value.match(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/);
-      fieldValidationErrors.author = authorValid ? '': '특수문자를 제외한 한글,영문,숫자만 입력 가능합니다.';
+      authorValid = authorReg.test(value);
+      fieldValidationErrors.author = authorValid ? '': '특수문자 및 숫자를 제외한 한글,영문만 입력 가능합니다.';
       break;
     case 'password':
-      passwordValid = value.match(/^[a-z|A-Z|0-9|*]+$/);
+      passwordValid = passwordReg.test(value);
       fieldValidationErrors.password = passwordValid ? '': '특수문자를 제외한 영문,숫자만 입력 가능합니다.';
       break;
     case 'contents':
@@ -217,8 +234,9 @@ export default class Modal extends Component{
   }
 
   _makeResults() {
-    const { data } = this.props;
-    const contents = data.contents;
+    const { type, data } = this.props;
+    const contents = {...this.state.contents};
+
     const categoryResult = () => {
       return Object.keys(contents).map((v)=>{
         const leng = contents[v].voter.length;
@@ -245,6 +263,26 @@ export default class Modal extends Component{
       });
     };
 
+    const voting = () => {
+      return Object.keys(contents).map((v)=>{
+        const voters = contents[v].voter;
+        const leng = contents[v].voter.length;
+        return( 
+          <div key={v} className={voters.includes(this.state.author) ? 'categories top' : 'categories'}>
+            <div className={'categories__contents clearfix pointer'} onClick={()=>{this._clickVote(v)}}>
+              <p className={'value'}>
+                <b>{contents[v].value}</b>
+              </p>
+              <p className={'voter'}>
+                <FontAwesomeIcon icon={faVoteYea} size={'xs'} /> 
+                <b>{leng}</b>
+              </p>
+            </div>
+          </div>
+        )
+      });
+    };
+
     return(
       <div className={'container'}>
         <h2 className={'title'}>{data.title}</h2>
@@ -252,21 +290,60 @@ export default class Modal extends Component{
           <p>시작: {moment(data.startedAt).format('lll')}</p>
           <p>종료: {moment(data.endedAt).format('lll')}</p>
         </div>
-        {categoryResult()}
-        <label className={'label__alone'}>
-          <input 
-            type="password" 
-            className={`password form-group__${this._errorLog(this.state.formErrors.password)}`} 
-            autoComplete='off' 
-            id="password" 
-            name="password" 
-            placeholder="비밀번호" 
-            value={this.state.password} 
-            onChange={(event) => this._handleUserInput(event)} 
-          />
-        </label>
+        {type === 'ongoing' && voting()}
+        {type === 'ongoing' && (
+          <label className={'label__alone'}>
+            <input 
+              type="text" 
+              className={`result__input form-group__${this._errorLog(this.state.formErrors.author)}`} 
+              autoComplete='off' 
+              id="author" 
+              name="author" 
+              placeholder="투표자 성함을 입력해주세요"               
+              maxLength="10" 
+              disabled={type === 'create' || type === 'ongoing' ? false : true}
+              value={this.state.author} 
+              onChange={(event) => this._handleUserInput(event)}
+            />
+            <FormErrors formErrors={this.state.formErrors.author} />
+          </label>
+        )}
+        {type === 'result' && categoryResult()}
+        {type === 'result' && (
+          <label className={'label__alone'}>
+            <input 
+              type="password" 
+              className={`result__input form-group__${this._errorLog(this.state.formErrors.password)}`} 
+              autoComplete='off' 
+              id="password" 
+              name="password" 
+              placeholder="비밀번호" 
+              value={this.state.password} 
+              onChange={(event) => this._handleUserInput(event)} 
+            />
+          </label>
+        )}
       </div>
     )
+  }
+
+  _clickVote = (category) => {
+    let newState = {...this.state.contents};
+    if(this.state.author !== '' && this.state.authorValid !== false){
+      if(!newState[category].voter.includes(this.state.author)){
+        const getOriginData = JSON.parse(JSON.stringify(this.state.formErrors.contentsObj));
+        newState = getOriginData;
+        newState[category].voter.push(this.state.author);
+
+        this.setState({
+          contents:newState,
+          votingValid : true
+        })
+      }
+    }else{
+      return alert('투표자 성함을 입력해주세요.');
+    }
+    
   }
 
   _errorLog(error) {
@@ -376,12 +453,15 @@ export default class Modal extends Component{
             {this._makeResults()}
           </div>
         ) : (
-          <div>1231312</div>
+          <div className={'modal__results'}>
+            {this._makeResults()}
+          </div>
         )
         )}
         <div className={"modal__footer"}>
           <Button className={'default__button'} onClick={(()=>{onClose()})}>닫기</Button>
-          {type !== 'result' && <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button>}
+          {type !== 'result' && type !== "ongoing" ? <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button> : null}
+          {type === 'ongoing' && <Button className={'nav__button'} onClick={(()=>{this._poll(onClose)})} disabled={!this.state.formValid || !this.state.votingValid}>투표하기</Button>}
           {type === 'setting' || type === 'result' ? <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button> : null}
         </div>
       </div>

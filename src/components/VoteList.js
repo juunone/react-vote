@@ -28,8 +28,8 @@ class VoteList extends Component{
     onClose();
   }
 
-  _handleSave = (onClose, data) => {
-    this.props._handleFetchData('PUT', data);
+  _handleSave = (onClose, data, path) => {
+    this.props._handleFetchData('PUT', data, path);
     onClose();
   }
 
@@ -53,11 +53,31 @@ class VoteList extends Component{
     )
   }
 
+  _voting = (type, data) => {
+    return( 
+      confirmAlert({
+        closeOnEscape: false,
+        closeOnClickOutside: false,
+        customUI: ({ onClose }) => {              
+          return (
+            <Modal 
+              type={type}
+              data={data}
+              onClose={onClose} 
+              handleSave={this._handleSave} 
+              handleDelete={this._handleDelete} 
+            />
+          )
+        }      
+      })
+    )
+  }
+
   _resultVote = (type, data) => {
     return( 
       confirmAlert({
         closeOnEscape: true,
-        closeOnClickOutside: false,
+        closeOnClickOutside: true,
         customUI: ({ onClose }) => {              
           return (
             <Modal 
@@ -88,7 +108,7 @@ class VoteList extends Component{
     const mappingData = data.map((v,i) => {
       return (
         <div key={i} className={'container__card'}>
-          <Card data={data[i]} type={type} settingVote={this._settingVote} resultVote={this._resultVote} />
+          <Card data={data[i]} type={type} settingVote={this._settingVote} voting={this._voting} resultVote={this._resultVote} />
         </div>
       )
     });
@@ -170,7 +190,7 @@ VoteList.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  _handleFetchData: (method, data) => { dispatch(actions.fetchData(method, data)) },
+  _handleFetchData: (method, data, path) => { dispatch(actions.fetchData(method, data, path)) },
 })
 
 const mapStateToProps = (state) => {

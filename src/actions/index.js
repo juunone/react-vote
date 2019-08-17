@@ -20,21 +20,27 @@ export const fetchDataFailure = error => {
   }
 };
 
-export const fetchData = (method = 'GET', data) => {
+export const fetchData = (method = 'GET', data, path = '') => {
   let id = "";
   if(method === 'PUT' || method === 'DELETE') id = data && data.id;
   let header = {'Content-Type':'application/json', 'Accept': 'application/json'};
   if(data && method !== 'DELETE'){            
     header = {'Content-Type':'application/x-www-form-urlencoded'}
   }  
+
+  const searchParams = (params) => {
+    return Object.keys(params).map((key) => {
+      if(key === 'contents') return encodeURIComponent(key) + '=' + encodeURIComponent(JSON.stringify(params[key]));
+      else return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+    }).join('&');
+  }
+
   return dispatch => {
     dispatch(fetchDataStart());
-    return fetch(`/api/votes/${id}`, {
+    return fetch(`/api/votes/${path}${id}`, {
       headers : header,
       method: method && method,
-      body: data && method !== 'DELETE' ? 
-        `author=${data.author}&title=${data.title}&password=${data.password}&contents=${JSON.stringify(data.contents)}&startedAt=${data.startedAt}&endedAt=${data.endedAt}` : 
-        undefined
+      body: data && method !== 'DELETE' ? searchParams(data) : undefined
     })
       .then(handleErrors)
       .then(res => {

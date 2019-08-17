@@ -45,7 +45,7 @@ class Card extends Component{
     return Math.floor(inTime);
   }
 
-  _makeHtml(data, type, settingVote, resultVote) {
+  _makeHtml(data, type, settingVote, voting, resultVote) {
     if(data){  
       const endAt = moment(data.endedAt).format("lll");         
       return (
@@ -56,7 +56,7 @@ class Card extends Component{
           </div>
           <h3 className={'container__card__title'}>{data.title}</h3>
           {type === 'staging' && <Button className='container__card__button' onClick={()=>{settingVote('setting', data)}}>수정/삭제</Button>} 
-          {type === 'ongoing' && <Button className='container__card__button'>투표</Button>} 
+          {type === 'ongoing' && <Button className='container__card__button' onClick={()=>{voting('ongoing', data)}}>투표</Button>} 
           {type === 'closed' && <Button className='container__card__button' onClick={()=>{resultVote('result', data)}}>결과보기</Button>}
           <div className={'container__card__footer'}>
             <Line className={'progress red'} percent={this.state.percent} />
@@ -70,9 +70,9 @@ class Card extends Component{
   }
 
   render(){
-    const { data, type, settingVote, resultVote } = this.props;
+    const { data, type, settingVote, voting, resultVote } = this.props;
     return (
-      this._makeHtml(data, type, settingVote, resultVote)
+      this._makeHtml(data, type, settingVote, voting, resultVote)
     )
   }
 }
