@@ -53,47 +53,48 @@ class VoteList extends Component{
     )
   }
 
-  _renderData(standing, onGoing, closed) {
-    const chunk = (array, size) => {
-      return array.reduce((chunks, item, i) => {
-        if (i % size === 0) chunks.push([item]);
-        else chunks[chunks.length - 1].push(item);
-        return chunks;
-      }, []);
-    }
+  _renderData(data, type) {
+    // const chunk = (array, size) => {
+    //   return array.reduce((chunks, item, i) => {
+    //     if (i % size === 0) chunks.push([item]);
+    //     else chunks[chunks.length - 1].push(item);
+    //     return chunks;
+    //   }, []);
+    // }
 
-    const chunkStanding = chunk(standing, 3);
-    const chunkOnGoing = chunk(onGoing, 3);
-    const chunkClosed = chunk(closed, 3);
+    // const chunkStanding = chunk(standing, 3);
+    // const chunkOnGoing = chunk(onGoing, 3);
+    // const chunkClosed = chunk(closed, 3);
 
-    const standingData = chunkStanding.map((v,i) => {
+    const mappingData = data.map((v,i) => {
       return (
-        <div key={i} className={"container__row"}>
-          <Card data={chunkStanding[i]} type='standing' settingVote={this._settingVote} />
+        <div key={i} className={'container__card'}>
+          <Card data={data[i]} type={type} settingVote={this._settingVote} />
         </div>
       )
     });
 
-    const onGoingData = chunkOnGoing.map((v,i) => {
-      return (
-        <div key={i} className={"container__row"}>
-          <Card data={chunkOnGoing[i]} type='ongoing' />
-        </div>
-      )
-    });
+    // const onGoingData = onGoing.map((v,i) => {
+    //   return (
+    //     <div key={i} className={"container__row"}>
+    //       <Card data={onGoing[i]} type='ongoing' />
+    //     </div>
+    //   )
+    // });
 
-    const closedData = chunkClosed.map((v,i) => {
-      return (
-        <div key={i} className={"container__row"}>
-          <Card data={chunkClosed[i]} type='closed' />
-        </div>
-      )
-    });
+    // const closedData = chunkClosed.map((v,i) => {
+    //   return (
+    //     <div key={i} className={"container__row"}>
+    //       <Card data={chunkClosed[i]} type='closed' />
+    //     </div>
+    //   )
+    // });
 
-    if(standing.length) standingData.unshift(<Title key="standing_title" className="container__title">Staging vote</Title>);
-    if(onGoing.length) onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
-    if(closed.length) closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
-    return [standingData, onGoingData, closedData];
+    // if(data.length) mappingData.unshift(<Title key='title' className="container__title">{title} vote</Title>);
+    // console.log(mappingData);
+    // if(onGoing.length) onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
+    // if(closed.length) closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
+    return mappingData;
   }
 
   render(){
@@ -106,10 +107,27 @@ class VoteList extends Component{
       return <div className={'noItems'}>Loading <FontAwesomeIcon icon={faSpinner} spin={true} /></div>;
     }
     
-    if(onGoingData && closedData) {
+    if(standingData || onGoingData || closedData) {
       return(
-        <Section className={'container__section'}>
-          {this._renderData(standingData, onGoingData, closedData)}
+        <Section className={'container__section'}>        
+          {!!standingData.length && (
+            <div className={"container__row"}>
+              <Title key='title' className="container__title">Staging vote</Title>
+              {this._renderData(standingData, 'staging')}
+            </div>
+          )}
+          {!!onGoingData.length && (
+            <div className={"container__row"}>
+              <Title key='title' className="container__title">Ongoing vote</Title>
+              {this._renderData(onGoingData, 'ongoing')}
+            </div>
+          )}
+          {!!closedData.length && (
+            <div className={"container__row"}>
+              <Title key='title' className="container__title">Closed vote</Title>
+              {this._renderData(closedData, 'closed')}
+            </div>
+          )}
         </Section>
       )
     }

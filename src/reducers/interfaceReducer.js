@@ -9,6 +9,9 @@ const intialState = {
   data:[],
   loading: false,
   error: null,
+  standingData : [],
+  onGoingData : [],
+  closedData : []
 };
 
 const COPY = (obj) => {

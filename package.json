@@ -27,7 +27,6 @@
     "@hot-loader/react-dom": "^16.9.0-4.12.11",
     "moment": "^2.24.0",
     "open-color": "^1.7.0",
-    "rc-progress": "^2.5.2",
     "react": "^16.8.4",
     "react-confirm-alert": "^2.4.1",
     "react-datepicker": "^2.8.0",

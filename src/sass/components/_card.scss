@@ -61,3 +61,65 @@
 		}
 	}
 }
+
+.progress {
+	height: 6px;
+	position: relative;
+	background: #d9d9d9;
+	border-radius: 0;
+	box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+
+	span {
+		display: block;
+		height: 100%;
+		border-top-right-radius: 8px;
+		border-bottom-right-radius: 8px;
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+		position: relative;
+		overflow: hidden;
+
+		&.animate {
+			&:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				background-image: linear-gradient(
+					-45deg,
+					rgba(255, 255, 255, 0.2) 25%,
+					transparent 25%,
+					transparent 50%,
+					rgba(255, 255, 255, 0.2) 50%,
+					rgba(255, 255, 255, 0.2) 75%,
+					transparent 75%,
+					transparent
+				);
+				z-index: 1;
+				background-size: 100px 100px;
+				border-top-right-radius: 8px;
+				border-bottom-right-radius: 8px;
+				border-top-left-radius: 20px;
+				border-bottom-left-radius: 20px;
+				overflow: hidden;
+				animation: move 2s linear infinite;
+			}
+		}
+	}
+
+	&.red span {
+		background-color: #f894a4;
+		background-image: linear-gradient(to right, #fdd7bf, #f894a4);
+	}
+}
+
+@keyframes move {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 50px 50px;
+	}
+}
