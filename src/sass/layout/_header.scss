@@ -1,20 +1,20 @@
 @import "~open-color/open-color";
 
 header {
-	background: $color-white;
-	padding: 1em 2.5em;
+  background: $color-white;
+  padding: 1em 2.6em;
 
-	.container {
-		float: left;
-		margin-top: 2px;
-	}
+  .container {
+    float: left;
+    margin-top: 2px;
+  }
 
-	nav {
-		text-align: right;
-	}
+  nav {
+    text-align: right;
+  }
 }
 
 .pull-right {
-	display: flex;
-	justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }

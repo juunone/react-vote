@@ -5,7 +5,7 @@ import { FormErrors } from './FormErrors';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUser, faCheck, faVoteYea } from '@fortawesome/free-solid-svg-icons'
 
 export default class Modal extends Component{
   constructor(props){
@@ -216,6 +216,59 @@ export default class Modal extends Component{
     return arr;
   }
 
+  _makeResults() {
+    const { data } = this.props;
+    const contents = data.contents;
+    const categoryResult = () => {
+      return Object.keys(contents).map((v)=>{
+        const leng = contents[v].voter.length;
+        const voterList = contents[v].voter.join(', ');
+        return( 
+          <div key={v} className={leng === data.topAcquisitionVote ? 'categories top' : 'categories'}>
+            <div className={'categories__contents clearfix'}>
+              <p className={'value'}>
+                {leng === data.topAcquisitionVote && <FontAwesomeIcon icon={faCheck} size={'xs'} /> }
+                <b>{contents[v].value}</b>
+              </p>
+              <p className={'voter'}>
+                <FontAwesomeIcon icon={faVoteYea} size={'xs'} /> 
+                <b>{leng}</b>
+              </p>
+            </div>
+            {leng !== 0 && (
+              <p className={'voter__list'}>
+                <FontAwesomeIcon icon={faUser} size={'xs'} /> : {voterList}
+              </p>
+            )}
+          </div>
+        )
+      });
+    };
+
+    return(
+      <div className={'container'}>
+        <h2 className={'title'}>{data.title}</h2>
+        <div className={'date'}>
+          <p>시작: {moment(data.startedAt).format('lll')}</p>
+          <p>종료: {moment(data.endedAt).format('lll')}</p>
+        </div>
+        {categoryResult()}
+        <label className={'label__alone'}>
+          <input 
+            type="password" 
+            className={`password form-group__${this._errorLog(this.state.formErrors.password)}`} 
+            autoComplete='off' 
+            id="password" 
+            name="password" 
+            placeholder="비밀번호" 
+            value={this.state.password} 
+            onChange={(event) => this._handleUserInput(event)} 
+          />
+        </label>
+      </div>
+    )
+  }
+
   _errorLog(error) {
     return(error.length === 0 ? '' : 'has-error');
   }
@@ -235,92 +288,101 @@ export default class Modal extends Component{
     const {type, onClose} = this.props;
     return(      
       <div className={'modal'}>
-        <div className={'modal__main'}>
-          <label className={'label__alone'}>
-            <input 
-              type="text" 
-              className={`form-group__${this._errorLog(this.state.formErrors.title)}`} 
-              autoComplete='off' 
-              id="title" 
-              name="title" 
-              placeholder="제목" 
-              maxLength="15" 
-              value={this.state.title} 
-              onChange={(event) => this._handleUserInput(event)} 
-            />
-            <FormErrors formErrors={this.state.formErrors.title} />
-          </label>
-          <label className={'label__alone'}>
-            <input 
-              type="text" 
-              className={`form-group__${this._errorLog(this.state.formErrors.author)}`} 
-              autoComplete='off' 
-              id="author" 
-              name="author" 
-              placeholder="작성자"               
-              maxLength="10" 
-              disabled={type === 'create' ? false : true}
-              value={this.state.author} 
-              onChange={(event) => this._handleUserInput(event)}
-            />
-            <FormErrors formErrors={this.state.formErrors.author} />
-          </label>
-          <label className={'label__alone'}>
-            <input 
-              type="password" 
-              className={`form-group__${this._errorLog(this.state.formErrors.password)}`} 
-              autoComplete='off' 
-              id="password" 
-              name="password" 
-              placeholder="비밀번호" 
-              value={this.state.password} 
-              onChange={(event) => this._handleUserInput(event)} 
-            />
-            <FormErrors formErrors={this.state.formErrors.password} />
-          </label>
-          <label className={'label__text'}>
-            {this._makeVoteContent(this.state.voteCnt)}
-            <FormErrors formErrors={this.state.formErrors.contents} />
-          </label>
-          <label className={'label__button'} style={{display: this.state.voteCnt >= this.state.categoryLimit ? 'none' : 'block'}}>
-            <Button className={'add__button'} onClick={(()=>{this._addContent()})}>
-              <FontAwesomeIcon icon={faPlus} /> 항목 추가
-            </Button>
-          </label>
-          <div className={'modal_datepicker clearfix'}>
-            <div className={'datepicker__title'}>시작</div>
-            <DatePicker
-              mode="time"
-              selected={this.state.startedAt}
-              className={`form-group__${this._errorLog(this.state.formErrors.startedAt)}`} 
-              showTimeSelect
-              dateFormat="yyyy.MM.dd HH:mm"
-              onChange={this._handleStartedDateChange}
-              minDate={moment().toDate()}
-              minTime={this.state.minTime}
-              maxTime={moment().endOf('day').toDate()}
-            />                
-            <FormErrors formErrors={this.state.formErrors.startedAt} />
+        {type === 'create' || type === 'setting' ? (
+          <div className={'modal__main'}>
+            <label className={'label__alone'}>
+              <input 
+                type="text" 
+                className={`form-group__${this._errorLog(this.state.formErrors.title)}`} 
+                autoComplete='off' 
+                id="title" 
+                name="title" 
+                placeholder="제목" 
+                maxLength="15" 
+                value={this.state.title} 
+                onChange={(event) => this._handleUserInput(event)} 
+              />
+              <FormErrors formErrors={this.state.formErrors.title} />
+            </label>
+            <label className={'label__alone'}>
+              <input 
+                type="text" 
+                className={`form-group__${this._errorLog(this.state.formErrors.author)}`} 
+                autoComplete='off' 
+                id="author" 
+                name="author" 
+                placeholder="작성자"               
+                maxLength="10" 
+                disabled={type === 'create' ? false : true}
+                value={this.state.author} 
+                onChange={(event) => this._handleUserInput(event)}
+              />
+              <FormErrors formErrors={this.state.formErrors.author} />
+            </label>
+            <label className={'label__alone'}>
+              <input 
+                type="password" 
+                className={`form-group__${this._errorLog(this.state.formErrors.password)}`} 
+                autoComplete='off' 
+                id="password" 
+                name="password" 
+                placeholder="비밀번호" 
+                value={this.state.password} 
+                onChange={(event) => this._handleUserInput(event)} 
+              />
+              <FormErrors formErrors={this.state.formErrors.password} />
+            </label>
+            <label className={'label__text'}>
+              {this._makeVoteContent(this.state.voteCnt)}
+              <FormErrors formErrors={this.state.formErrors.contents} />
+            </label>
+            <label className={'label__button'} style={{display: this.state.voteCnt >= this.state.categoryLimit ? 'none' : 'block'}}>
+              <Button className={'add__button'} onClick={(()=>{this._addContent()})}>
+                <FontAwesomeIcon icon={faPlus} /> 항목 추가
+              </Button>
+            </label>
+            <div className={'modal_datepicker clearfix'}>
+              <div className={'datepicker__title'}>시작</div>
+              <DatePicker
+                mode="time"
+                selected={this.state.startedAt}
+                className={`form-group__${this._errorLog(this.state.formErrors.startedAt)}`} 
+                showTimeSelect
+                dateFormat="yyyy.MM.dd HH:mm"
+                onChange={this._handleStartedDateChange}
+                minDate={moment().toDate()}
+                minTime={this.state.minTime}
+                maxTime={moment().endOf('day').toDate()}
+              />                
+              <FormErrors formErrors={this.state.formErrors.startedAt} />
+            </div>
+            <div className={'modal_datepicker clearfix'}>
+              <div className={'datepicker__title'}>종료</div>
+              <DatePicker
+                selected={this.state.endedAt}
+                className={`form-group__${this._errorLog(this.state.formErrors.endedAt)}`} 
+                showTimeSelect
+                dateFormat="yyyy.MM.dd HH:mm"
+                onChange={this._handleEndedDateChange}
+                minDate={moment().toDate()}
+                minTime={moment(this.state.minTime).add({hours: 1}).toDate()}
+                maxTime={moment().endOf('day').toDate()}
+              />
+              <FormErrors formErrors={this.state.formErrors.endedAt} />
+            </div>
           </div>
-          <div className={'modal_datepicker clearfix'}>
-            <div className={'datepicker__title'}>종료</div>
-            <DatePicker
-              selected={this.state.endedAt}
-              className={`form-group__${this._errorLog(this.state.formErrors.endedAt)}`} 
-              showTimeSelect
-              dateFormat="yyyy.MM.dd HH:mm"
-              onChange={this._handleEndedDateChange}
-              minDate={moment().toDate()}
-              minTime={moment(this.state.minTime).add({hours: 1}).toDate()}
-              maxTime={moment().endOf('day').toDate()}
-            />
-            <FormErrors formErrors={this.state.formErrors.endedAt} />
+        ) : (type === "result" ? (
+          <div className={'modal__results'}>
+            {this._makeResults()}
           </div>
-        </div>
+        ) : (
+          <div>1231312</div>
+        )
+        )}
         <div className={"modal__footer"}>
           <Button className={'default__button'} onClick={(()=>{onClose()})}>닫기</Button>
-          <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button>
-          {type === 'setting' && <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button>}
+          {type !== 'result' && <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button>}
+          {type === 'setting' || type === 'result' ? <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button> : null}
         </div>
       </div>
     )

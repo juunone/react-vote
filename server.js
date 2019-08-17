@@ -88,13 +88,28 @@ var pushDataById = function (data, id, newData) {
   var getDataIdx = data.findIndex(v => {
     if(String(v.id) === id) return v;
   });
+  var topVote = getTopAcquisitionVote(JSON.parse(newData.contents));
   data[getDataIdx].title = newData.title;
   data[getDataIdx].author = newData.author;
   data[getDataIdx].startedAt = Number(newData.startedAt);
   data[getDataIdx].endedAt = Number(newData.endedAt);
   data[getDataIdx].contents = JSON.parse(newData.contents);
+  data[getDataIdx].topAcquisitionVote = topVote;
   return data;
 };
+
+var getTopAcquisitionVote = function (res) {
+  var contents = res;
+  var topAcquisitionVote = 0;
+  Object.keys(contents).forEach((v)=>{
+    if(topAcquisitionVote === 0){
+      topAcquisitionVote = contents[v].voter.length;
+    } else if( contents[v].voter.length > Number(topAcquisitionVote) ){
+      topAcquisitionVote = contents[v].voter.length;
+    } 
+  });
+  return Number(topAcquisitionVote);
+}
 
 app.use(function (req, res, next) {
   res.setHeader('Cache-Control', 'no-cache');
@@ -114,6 +129,7 @@ appRouter.get('/', function (req, res) {
 // write
 appRouter.post('/', function (req, res) {
   readData().then(function (data) {
+    var topVote = getTopAcquisitionVote(JSON.parse(req.body.contents));
     var newData = {
       id: Date.now(),
       author: req.body.author,
@@ -121,8 +137,10 @@ appRouter.post('/', function (req, res) {
       password: req.body.password,
       contents: JSON.parse(req.body.contents),
       startedAt: Number(req.body.startedAt),
-      endedAt: Number(req.body.endedAt)
+      endedAt: Number(req.body.endedAt),
+      topAcquisitionVote:topVote
     };
+
 
     data.unshift(newData);
 

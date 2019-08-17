@@ -1,118 +1,145 @@
 [
-	{
-		"id": 1565977401321,
-		"author": "대기작성자1",
-		"title": "이건테스트여",
-		"password": "123",
-		"contents": {
-			"category-1": {
-				"value": "123",
-				"voter": []
-			},
-			"category-2": {
-				"value": "2213",
-				"voter": []
-			},
-			"category-3": {
-				"value": "31",
-				"voter": []
-			},
-			"category-4": {
-				"value": "2",
-				"voter": []
-			},
-			"category-7": {
-				"value": "231123333",
-				"voter": []
-			},
-			"category-6": {
-				"value": "123",
-				"voter": []
-			},
-			"category-5": {
-				"value": "32",
-				"voter": []
-			}
-		},
-		"startedAt": 1566239400000,
-		"endedAt": 1566937800000
-	},
-	{
-		"id": 1565945437624,
-		"author": "대기작성자2",
-		"title": "대기13",
-		"password": "123",
-		"contents": {
-			"category-1": {
-				"value": "123122",
-				"voter": []
-			},
-			"category-2": {
-				"value": "555",
-				"voter": []
-			},
-			"category-3": {
-				"value": "443",
-				"voter": []
-			},
-			"category-4": {
-				"value": "23211",
-				"voter": []
-			}
-		},
-		"startedAt": 1567709100000,
-		"endedAt": 1567712700000
-	},
-	{
-		"id": 1265945437624,
-		"author": "온고잉작성자",
-		"title": "온고잉1",
-		"password": "32222",
-		"contents": {
-			"category-1": {
-				"value": "1",
-				"voter": []
-			},
-			"category-2": {
-				"value": "2",
-				"voter": []
-			},
-			"category-3": {
-				"value": "3",
-				"voter": []
-			},
-			"category-4": {
-				"value": "4",
-				"voter": []
-			}
-		},
-		"startedAt": 1565945918307,
-		"endedAt": 1566028646872
-	},
-	{
-		"id": 1264945437624,
-		"author": "끝남작성자",
-		"title": "끝남1",
-		"password": "32222",
-		"contents": {
-			"category-1": {
-				"value": "1",
-				"voter": []
-			},
-			"category-2": {
-				"value": "2",
-				"voter": []
-			},
-			"category-3": {
-				"value": "3",
-				"voter": []
-			},
-			"category-4": {
-				"value": "4",
-				"voter": []
-			}
-		},
-		"startedAt": 1545945918307,
-		"endedAt": 1555945918307
-	}
+  {
+    "id": 1566035613789,
+    "author": "132",
+    "title": "21312313",
+    "password": "1231",
+    "contents": {
+      "category-1": {
+        "value": "1",
+        "voter": []
+      },
+      "category-2": {
+        "value": "23",
+        "voter": []
+      },
+      "category-3": {
+        "value": "3",
+        "voter": []
+      }
+    },
+    "startedAt": 1566037408675,
+    "endedAt": 1566039208676,
+    "topAcquisitionVote": 0
+  },
+  {
+    "id": 1565977401321,
+    "author": "대기작성자1",
+    "title": "이건테스트여22",
+    "password": "123",
+    "contents": {
+      "category-1": {
+        "value": "오수정되나12211",
+        "voter": []
+      },
+      "category-2": {
+        "value": "2213222",
+        "voter": []
+      },
+      "category-3": {
+        "value": "31",
+        "voter": []
+      },
+      "category-4": {
+        "value": "2",
+        "voter": []
+      },
+      "category-7": {
+        "value": "231123333",
+        "voter": []
+      },
+      "category-6": {
+        "value": "123",
+        "voter": []
+      },
+      "category-5": {
+        "value": "32",
+        "voter": []
+      }
+    },
+    "startedAt": 1566239400000,
+    "endedAt": 1566937800000,
+    "topAcquisitionVote": 0
+  },
+  {
+    "id": 1565945437624,
+    "author": "대기작성자2",
+    "title": "대기13333",
+    "password": "123",
+    "contents": {
+      "category-1": {
+        "value": "흠",
+        "voter": []
+      },
+      "category-2": {
+        "value": "555",
+        "voter": []
+      },
+      "category-3": {
+        "value": "443",
+        "voter": []
+      },
+      "category-4": {
+        "value": "23211",
+        "voter": []
+      }
+    },
+    "startedAt": 1567709100000,
+    "endedAt": 1567712700000,
+    "topAcquisitionVote": 0
+  },
+  {
+    "id": 1265945437624,
+    "author": "온고잉작성자",
+    "title": "온고잉1",
+    "password": "32222",
+    "contents": {
+      "category-1": {
+        "value": "1",
+        "voter": []
+      },
+      "category-2": {
+        "value": "2",
+        "voter": []
+      },
+      "category-3": {
+        "value": "3",
+        "voter": []
+      },
+      "category-4": {
+        "value": "4",
+        "voter": []
+      }
+    },
+    "startedAt": 1565945918307,
+    "endedAt": 1566058646872,
+    "topAcquisitionVote": 0
+  },
+  {
+    "id": 1264945437624,
+    "author": "끝남작성자",
+    "title": "끝남1",
+    "password": "123",
+    "contents": {
+      "category-1": {
+        "value": "1",
+        "voter": ["a", "b"]
+      },
+      "category-2": {
+        "value": "2",
+        "voter": ["c"]
+      },
+      "category-3": {
+        "value": "3",
+        "voter": ["h", "e"]
+      },
+      "category-4": {
+        "value": "4",
+        "voter": []
+      }
+    },
+    "startedAt": 1545945918307,
+    "endedAt": 1555945918307,
+    "topAcquisitionVote": 2
+  }
 ]

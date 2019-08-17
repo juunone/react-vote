@@ -53,6 +53,25 @@ class VoteList extends Component{
     )
   }
 
+  _resultVote = (type, data) => {
+    return( 
+      confirmAlert({
+        closeOnEscape: true,
+        closeOnClickOutside: false,
+        customUI: ({ onClose }) => {              
+          return (
+            <Modal 
+              type={type}
+              data={data}
+              onClose={onClose} 
+              handleDelete={this._handleDelete} 
+            />
+          )
+        }      
+      })
+    )
+  }
+
   _renderData(data, type) {
     // const chunk = (array, size) => {
     //   return array.reduce((chunks, item, i) => {
@@ -69,7 +88,7 @@ class VoteList extends Component{
     const mappingData = data.map((v,i) => {
       return (
         <div key={i} className={'container__card'}>
-          <Card data={data[i]} type={type} settingVote={this._settingVote} />
+          <Card data={data[i]} type={type} settingVote={this._settingVote} resultVote={this._resultVote} />
         </div>
       )
     });
@@ -100,11 +119,11 @@ class VoteList extends Component{
   render(){
     const {standingData, onGoingData, closedData, error , loading} = this.props;
     if (error) {
-      return <div className={'noItems'}>네트워크 오류입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
+      return <div className={'no-data'}>네트워크 오류입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
     }
 
     if (loading) {
-      return <div className={'noItems'}>Loading <FontAwesomeIcon icon={faSpinner} spin={true} /></div>;
+      return <div className={'no-data'}>Loading <FontAwesomeIcon icon={faSpinner} spin={true} /></div>;
     }
     
     if(standingData || onGoingData || closedData) {
