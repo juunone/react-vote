@@ -93,18 +93,6 @@ class VoteList extends Component{
   }
 
   _renderData(data, type) {
-    // const chunk = (array, size) => {
-    //   return array.reduce((chunks, item, i) => {
-    //     if (i % size === 0) chunks.push([item]);
-    //     else chunks[chunks.length - 1].push(item);
-    //     return chunks;
-    //   }, []);
-    // }
-
-    // const chunkStanding = chunk(standing, 3);
-    // const chunkOnGoing = chunk(onGoing, 3);
-    // const chunkClosed = chunk(closed, 3);
-
     const mappingData = data.map((v,i) => {
       return (
         <div key={i} className={'container__card'}>
@@ -113,26 +101,6 @@ class VoteList extends Component{
       )
     });
 
-    // const onGoingData = onGoing.map((v,i) => {
-    //   return (
-    //     <div key={i} className={"container__row"}>
-    //       <Card data={onGoing[i]} type='ongoing' />
-    //     </div>
-    //   )
-    // });
-
-    // const closedData = chunkClosed.map((v,i) => {
-    //   return (
-    //     <div key={i} className={"container__row"}>
-    //       <Card data={chunkClosed[i]} type='closed' />
-    //     </div>
-    //   )
-    // });
-
-    // if(data.length) mappingData.unshift(<Title key='title' className="container__title">{title} vote</Title>);
-    // console.log(mappingData);
-    // if(onGoing.length) onGoingData.unshift(<Title key="ongoing_title" className="container__title">Ongoing vote</Title>);
-    // if(closed.length) closedData.unshift(<Title key="closed_title" className="container__title">Closed vote</Title>);
     return mappingData;
   }
 
@@ -151,8 +119,8 @@ class VoteList extends Component{
         <Section className={'container__section'}>        
           {!!standingData.length && (
             <div className={"container__row"}>
-              <Title key='title' className="container__title">Staging vote</Title>
-              {this._renderData(standingData, 'staging')}
+              <Title key='title' className="container__title">Standing vote</Title>
+              {this._renderData(standingData, 'standing')}
             </div>
           )}
           {!!onGoingData.length && (

@@ -18,6 +18,8 @@
     }
     .title {
       margin-bottom: 1em;
+      font-weight: 600;
+      color: $oc-gray-7;
     }
     .date {
       p {
@@ -124,7 +126,6 @@
     .label__button {
       margin-top: 0;
       border: 1px solid $border-color-light;
-      // border-top: none;
       width: 100%;
     }
 

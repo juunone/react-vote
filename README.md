@@ -1,6 +1,6 @@
 <h1 align="center">Who do you want to vote for? 🙊</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.1.2-blue.svg?cacheSeconds=2592000" />
   <a href="https://travis-ci.com/juunone/react-vote">
     <img src="https://travis-ci.com/juunone/react-vote.svg?branch=master">
   </a>

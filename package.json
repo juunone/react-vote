@@ -1,7 +1,7 @@
 {
   "name": "react-vote",
   "description": "This is vote system",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "private": true,
   "author": "juunone",
   "license": "MIT",

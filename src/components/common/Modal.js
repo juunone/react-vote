@@ -51,11 +51,21 @@ export default class Modal extends Component{
   };
 
   _poll = (onClose) => {
+    let newState = {...this.state.contents};
+    if(this.state.author !== '' && this.state.authorValid !== false){
+      if(!newState[this.state.selectedCategory].voter.includes(this.state.author)){
+        const getOriginData = JSON.parse(JSON.stringify(this.state.formErrors.contentsObj));
+        newState = getOriginData;
+        newState[this.state.selectedCategory].voter.push(this.state.author);
+      }
+    }else{
+      return alert('투표자 성함을 입력해주세요.');
+    }
+    
     const { handleSave } = this.props;
-    const { contents } = this.state;
     const data = {
       id: this.props.data && this.props.data.id,
-      contents:contents,
+      contents:newState,
     };
 
     handleSave(onClose, data, 'poll/');
@@ -107,22 +117,32 @@ export default class Modal extends Component{
     }, () => {this._validateField('endedAt', date)} )
   }
   
-  _handleUserInput = (e,i) => {
+  _handleUserInput = (e, type, i) => {
     const name = e.target.name;
     const value = e.target.value;
-    const contents = {...this.state.contents}
-    if(!contents[`category-${i}`]) contents[`category-${i}`] = {};
-    contents[`category-${i}`].value = e.target.value;
-    contents[`category-${i}`].voter = [];
+    const contents = {...this.state.contents};
 
-    if(i){
+    switch(type){
+    case 'voteContents':
+      if(!contents[`category-${i}`]) contents[`category-${i}`] = {};
+      contents[`category-${i}`].value = e.target.value;
+      contents[`category-${i}`].voter = [];
+
       this.setState({
         contents
       }, () => {this._validateField('contents', value, i)});
-    } else {
+      break;
+    case 'voting':
+      this.setState({
+        [name]: value,
+        contents: JSON.parse(JSON.stringify(this.state.formErrors.contentsObj))
+      }, () => {this._validateField(name, value)});
+      break;
+    default:
       this.setState({
         [name]: value
       }, () => {this._validateField(name, value)});
+      break;
     }
   }
 
@@ -134,7 +154,8 @@ export default class Modal extends Component{
     let contentsValid = this.state.contentsValid;
     let startedAtValid = this.state.startedAtValid;
     let endedAtValid = this.state.endedAtValid;
-    const titleReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*]+$/;
+    let selectedCategory = this.state.selectedCategory;
+    const titleReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\w |*]+$/;
     const authorReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|*]+$/;
     const passwordReg = /^[a-z|A-Z|0-9|*]+$/;
   
@@ -145,6 +166,7 @@ export default class Modal extends Component{
       break;
     case 'author':
       authorValid = authorReg.test(value);
+      selectedCategory = authorReg.test(value) === true && '';
       fieldValidationErrors.author = authorValid ? '': '특수문자 및 숫자를 제외한 한글,영문만 입력 가능합니다.';
       break;
     case 'password':
@@ -184,7 +206,8 @@ export default class Modal extends Component{
       passwordValid: passwordValid,
       contentsValid: contentsValid,
       startedAtValid: startedAtValid,
-      endedAtValid: endedAtValid
+      endedAtValid: endedAtValid,
+      selectedCategory: selectedCategory
     }, this._validateForm);
   }
   
@@ -226,7 +249,7 @@ export default class Modal extends Component{
           maxLength="10" 
           autoComplete="off"
           value={this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : ''} 
-          onChange={(event) => this._handleUserInput(event,i+1)} 
+          onChange={(event) => this._handleUserInput(event,'voteContents', i+1)} 
         />
       );
     }
@@ -265,10 +288,9 @@ export default class Modal extends Component{
 
     const voting = () => {
       return Object.keys(contents).map((v)=>{
-        const voters = contents[v].voter;
         const leng = contents[v].voter.length;
         return( 
-          <div key={v} className={voters.includes(this.state.author) ? 'categories top' : 'categories'}>
+          <div key={v} className={contents[v].voter.includes(this.state.author) ? 'categories top' : 'categories'}>
             <div className={'categories__contents clearfix pointer'} onClick={()=>{this._clickVote(v)}}>
               <p className={'value'}>
                 <b>{contents[v].value}</b>
@@ -303,7 +325,7 @@ export default class Modal extends Component{
               maxLength="10" 
               disabled={type === 'create' || type === 'ongoing' ? false : true}
               value={this.state.author} 
-              onChange={(event) => this._handleUserInput(event)}
+              onChange={(event) => this._handleUserInput(event, 'voting')}
             />
             <FormErrors formErrors={this.state.formErrors.author} />
           </label>
@@ -315,7 +337,8 @@ export default class Modal extends Component{
               type="password" 
               className={`result__input form-group__${this._errorLog(this.state.formErrors.password)}`} 
               autoComplete='off' 
-              id="password" 
+              maxLength="20"
+              id="password"  
               name="password" 
               placeholder="비밀번호" 
               value={this.state.password} 
@@ -328,22 +351,45 @@ export default class Modal extends Component{
   }
 
   _clickVote = (category) => {
-    let newState = {...this.state.contents};
     if(this.state.author !== '' && this.state.authorValid !== false){
-      if(!newState[category].voter.includes(this.state.author)){
-        const getOriginData = JSON.parse(JSON.stringify(this.state.formErrors.contentsObj));
-        newState = getOriginData;
-        newState[category].voter.push(this.state.author);
+      let newState = {...this.state.contents};
+      const getOriginData = JSON.parse(JSON.stringify(this.state.formErrors.contentsObj));
 
-        this.setState({
-          contents:newState,
-          votingValid : true
-        })
+      let exludeObj = {};
+
+      const mappingExcludeAuthor = Object.keys(getOriginData).forEach(v => {
+        if(getOriginData[v].voter.includes(this.state.author)){
+          exludeObj = {
+            category: v,
+            value: getOriginData[v].value,
+            voter: getOriginData[v].voter
+          }
+        }
+      });
+
+      if(Object.keys(exludeObj).length){ //동일한 투표자 중복투표시
+        const excludeAuthor = exludeObj.voter.findIndex(value => {
+          return value === this.state.author;
+        });
+        exludeObj.voter.splice(excludeAuthor, 1);
+  
+        getOriginData[exludeObj.category] = {
+          value:exludeObj.value,
+          voter:exludeObj.voter
+        }
       }
+      
+      newState = {...getOriginData};
+      newState[category].voter.push(this.state.author);
+
+      this.setState({
+        contents:newState,
+        selectedCategory:category,
+        votingValid : true
+      });
     }else{
       return alert('투표자 성함을 입력해주세요.');
     }
-    
   }
 
   _errorLog(error) {
@@ -401,6 +447,7 @@ export default class Modal extends Component{
                 type="password" 
                 className={`form-group__${this._errorLog(this.state.formErrors.password)}`} 
                 autoComplete='off' 
+                maxLength="20" 
                 id="password" 
                 name="password" 
                 placeholder="비밀번호" 
@@ -461,7 +508,7 @@ export default class Modal extends Component{
         <div className={"modal__footer"}>
           <Button className={'default__button'} onClick={(()=>{onClose()})}>닫기</Button>
           {type !== 'result' && type !== "ongoing" ? <Button className={'nav__button'} onClick={(()=>{this._save(onClose)})} disabled={!this.state.formValid}>저장</Button> : null}
-          {type === 'ongoing' && <Button className={'nav__button'} onClick={(()=>{this._poll(onClose)})} disabled={!this.state.formValid || !this.state.votingValid}>투표하기</Button>}
+          {type === 'ongoing' && <Button className={'nav__button'} onClick={(()=>{this._poll(onClose)})} disabled={!this.state.formValid || !this.state.votingValid || this.state.selectedCategory === ""}>투표하기</Button>}
           {type === 'setting' || type === 'result' ? <Button className={'delete__button'} onClick={(()=>{this._delete(onClose)})} disabled={!this.state.formValid}>삭제</Button> : null}
         </div>
       </div>

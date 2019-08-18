@@ -10,7 +10,7 @@ class Card extends Component{
   constructor(props){
     super(props);
     this.state = {
-      percent: this.props.type !== 'ongoing' ? (this.props.type === 'staging' ? 0 : 100 ) : this._calcPercent(),
+      percent: this.props.type !== 'ongoing' ? (this.props.type === 'standing' ? 0 : 100 ) : this._calcPercent(),
       delay:1000
     };
   }
@@ -55,7 +55,7 @@ class Card extends Component{
             <FontAwesomeIcon icon={faPoll} color={'#f99ea8'} />
           </div>
           <h3 className={'container__card__title'}>{data.title}</h3>
-          {type === 'staging' && <Button className='container__card__button' onClick={()=>{settingVote('setting', data)}}>수정/삭제</Button>} 
+          {type === 'standing' && <Button className='container__card__button' onClick={()=>{settingVote('setting', data)}}>수정/삭제</Button>} 
           {type === 'ongoing' && <Button className='container__card__button' onClick={()=>{voting('ongoing', data)}}>투표</Button>} 
           {type === 'closed' && <Button className='container__card__button' onClick={()=>{resultVote('result', data)}}>결과보기</Button>}
           <div className={'container__card__footer'}>
