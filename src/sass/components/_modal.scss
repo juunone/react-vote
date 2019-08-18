@@ -102,6 +102,16 @@
       }
     }
 
+    .remove__contentsWrap {
+      position: relative;
+      i {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+    }
+
     .label__alone {
       margin-bottom: 0.3em;
     }

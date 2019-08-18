@@ -1,16 +1,47 @@
 [
   {
-    "id": 1566118490886,
-    "author": "아아",
-    "title": "생성테스트28일시작",
+    "id": 1566126922215,
+    "author": "안녕",
+    "title": "제발2",
     "password": "123",
     "contents": {
       "category-1": {
-        "value": "1",
+        "value": "15",
         "voter": []
       },
       "category-2": {
-        "value": "2",
+        "value": "52",
+        "voter": []
+      },
+      "category-3": {
+        "value": "53",
+        "voter": []
+      },
+      "category-4": {
+        "value": "56",
+        "voter": []
+      },
+      "category-5": {
+        "value": "55",
+        "voter": []
+      }
+    },
+    "startedAt": 1566993600000,
+    "endedAt": 1566997200000,
+    "topAcquisitionVote": 0
+  },
+  {
+    "id": 1566118490886,
+    "author": "아아",
+    "title": "생성테스트ㅎㅎㅎ",
+    "password": "123",
+    "contents": {
+      "category-1": {
+        "value": "음",
+        "voter": []
+      },
+      "category-2": {
+        "value": "ㅠㅠㅠ",
         "voter": []
       },
       "category-3": {
@@ -22,12 +53,12 @@
         "voter": []
       },
       "category-5": {
-        "value": "5",
+        "value": "오오",
         "voter": []
       }
     },
-    "startedAt": 1566984263000,
-    "endedAt": 1566987863000,
+    "startedAt": 1566900000000,
+    "endedAt": 1566903600000,
     "topAcquisitionVote": 0
   },
   {
@@ -51,29 +82,6 @@
     },
     "startedAt": 1566097200000,
     "endedAt": 1566100800000,
-    "topAcquisitionVote": 0
-  },
-  {
-    "id": 1566035613789,
-    "author": "132",
-    "title": "21312313",
-    "password": "1231",
-    "contents": {
-      "category-1": {
-        "value": "1",
-        "voter": []
-      },
-      "category-2": {
-        "value": "23",
-        "voter": []
-      },
-      "category-3": {
-        "value": "3",
-        "voter": []
-      }
-    },
-    "startedAt": 1566239400000,
-    "endedAt": 1566937800000,
     "topAcquisitionVote": 0
   },
   {
@@ -147,26 +155,37 @@
     "topAcquisitionVote": 0
   },
   {
-    "id": 1265945437624,
+    "id": 1265945457624,
     "author": "온고잉작성자",
     "title": "온고잉1",
     "password": "123",
     "contents": {
       "category-1": {
         "value": "1",
-        "voter": ["투표테스트"]
+        "voter": [
+          "가"
+        ]
       },
       "category-2": {
         "value": "2",
-        "voter": ["ㅎ"]
+        "voter": [
+          "나"
+        ]
       },
       "category-3": {
         "value": "3",
-        "voter": ["ㅇㅇ", "1"]
+        "voter": [
+          "오",
+          "키"
+        ]
       },
       "category-4": {
         "value": "4",
-        "voter": ["ㄱ", "ㅇㅁ", "ㅁㅁㅁㄴ"]
+        "voter": [
+          "호호",
+          "히",
+          "러"
+        ]
       }
     },
     "startedAt": 1565945918307,
@@ -181,24 +200,35 @@
     "contents": {
       "category-1": {
         "value": "1",
-        "voter": []
+        "voter": [
+          "응"
+        ]
       },
       "category-2": {
         "value": "2",
-        "voter": ["1"]
+        "voter": [
+          "유"
+        ]
       },
       "category-3": {
         "value": "3",
-        "voter": ["3", "4"]
+        "voter": [
+          "오",
+          "키",
+          "음"
+        ]
       },
       "category-4": {
         "value": "4",
-        "voter": ["히히", "음", "아"]
+        "voter": [
+          "호호",
+          "히"
+        ]
       }
     },
     "startedAt": 1565945918307,
     "endedAt": 1566278646872,
-    "topAcquisitionVote": 2
+    "topAcquisitionVote": 3
   },
   {
     "id": 1264945437624,
@@ -208,15 +238,23 @@
     "contents": {
       "category-1": {
         "value": "1",
-        "voter": ["a", "b"]
+        "voter": [
+          "a",
+          "b"
+        ]
       },
       "category-2": {
         "value": "2",
-        "voter": ["c"]
+        "voter": [
+          "c"
+        ]
       },
       "category-3": {
         "value": "3",
-        "voter": ["h", "e"]
+        "voter": [
+          "h",
+          "e"
+        ]
       },
       "category-4": {
         "value": "4",

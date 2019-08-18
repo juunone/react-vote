@@ -5,7 +5,7 @@ import { FormErrors } from './FormErrors';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faUser, faCheck, faVoteYea } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faUser, faCheck, faVoteYea, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default class Modal extends Component{
   constructor(props){
@@ -65,7 +65,7 @@ export default class Modal extends Component{
     const { handleSave } = this.props;
     const data = {
       id: this.props.data && this.props.data.id,
-      contents:newState,
+      contents: newState,
     };
 
     handleSave(onClose, data, 'poll/');
@@ -118,8 +118,8 @@ export default class Modal extends Component{
   }
   
   _handleUserInput = (e, type, i) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const name = e.target && e.target.name;
+    const value = e.target ? e.target.value : e;
     const contents = {...this.state.contents};
 
     switch(type){
@@ -137,6 +137,11 @@ export default class Modal extends Component{
         [name]: value,
         contents: JSON.parse(JSON.stringify(this.state.formErrors.contentsObj))
       }, () => {this._validateField(name, value)});
+      break;
+    case 'delete':
+      this.setState({
+        contents
+      }, () => {this._validateField('delete', value, i)});
       break;
     default:
       this.setState({
@@ -172,6 +177,15 @@ export default class Modal extends Component{
     case 'password':
       passwordValid = passwordReg.test(value);
       fieldValidationErrors.password = passwordValid ? '': '특수문자를 제외한 영문,숫자만 입력 가능합니다.';
+      break;
+    case 'delete':
+      if(value !== ''){
+        if(contentsValid !== false) contentsValid =  true;
+      }else{
+        contentsValid =  true;
+      }
+      
+      fieldValidationErrors.contents = contentsValid ? '': '항목을 모두 입력해주세요.';
       break;
     case 'contents':
       contentsValid =  true;
@@ -237,21 +251,64 @@ export default class Modal extends Component{
     });
   }
 
+  _deleteContents(value, i) {
+    const contents = {...this.state.contents};
+    const formErrors = {...this.state.formErrors};
+    const voteCnt = this.state.voteCnt;
+    let newContents = {};
+    
+    delete contents[`category-${i+1}`];
+    const makeNewContents = Object.keys(contents).forEach((key,index) => {
+      newContents[`category-${index+1}`] = {
+        value:contents[key].value,
+        voter:contents[key].voter,
+      }
+    });
+
+    formErrors.contentsObj = newContents;
+
+    this.setState({
+      contents: newContents,
+      voteCnt: voteCnt - 1,
+      formErrors
+    },this._handleUserInput(value, 'delete', i));
+  }
+
   _makeVoteContent(cnt) {
     let arr = [];
     for(let i = 0; i < cnt; i++){
-      arr.push(
-        <input key={i} 
-          type="text" 
-          className={`form-group__${this._errorLog(this.state.formErrors.contents)}`} 
-          name="contents" 
-          placeholder="항목 입력" 
-          maxLength="10" 
-          autoComplete="off"
-          value={this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : ''} 
-          onChange={(event) => this._handleUserInput(event,'voteContents', i+1)} 
-        />
-      );
+      if(i > 2){
+        arr.push(
+          <div key={i} className={'remove__contentsWrap'}>
+            <i onClick={()=>{this._deleteContents(this.state.contents[`category-${i+1}`].value, i)}}>
+              <FontAwesomeIcon icon={faTimesCircle} size={'1x'} /> 
+            </i>
+            <input
+              type="text" 
+              className={`form-group__${this._errorLog(this.state.formErrors.contents)}`} 
+              name="contents" 
+              placeholder="항목 입력" 
+              maxLength="10" 
+              autoComplete="off"
+              value={this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : ''} 
+              onChange={(event) => this._handleUserInput(event,'voteContents', i+1)} 
+            />
+          </div>
+        );
+      }else{
+        arr.push(
+          <input key={i} 
+            type="text" 
+            className={`form-group__${this._errorLog(this.state.formErrors.contents)}`} 
+            name="contents" 
+            placeholder="항목 입력" 
+            maxLength="10" 
+            autoComplete="off"
+            value={this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : ''} 
+            onChange={(event) => this._handleUserInput(event,'voteContents', i+1)} 
+          />
+        );
+      }
     }
     return arr;
   }
