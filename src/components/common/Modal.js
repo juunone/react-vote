@@ -96,7 +96,7 @@ export default class Modal extends Component{
   _calculateMinTime = date => {
     let isToday = moment(date).isSame(moment(), 'day');
     if (isToday) {
-      let nowAddOneHour = moment(new Date()).add({minutes: 20}).toDate();
+      let nowAddOneHour = moment(new Date()).add({minutes: 10}).toDate();
       return nowAddOneHour;
     }
     return moment().startOf('day').toDate();
@@ -531,6 +531,7 @@ export default class Modal extends Component{
                 showTimeSelect
                 dateFormat="yyyy.MM.dd HH:mm"
                 onChange={this._handleStartedDateChange}
+                timeIntervals={10}
                 minDate={moment().toDate()}
                 minTime={this.state.minTime}
                 maxTime={moment().endOf('day').toDate()}
@@ -545,6 +546,7 @@ export default class Modal extends Component{
                 showTimeSelect
                 dateFormat="yyyy.MM.dd HH:mm"
                 onChange={this._handleEndedDateChange}
+                timeIntervals={10}
                 minDate={moment().toDate()}
                 minTime={moment(this.state.minTime).add({hours: 1}).toDate()}
                 maxTime={moment().endOf('day').toDate()}
