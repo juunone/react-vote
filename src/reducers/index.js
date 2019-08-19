@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import interfaceReducer from './interfaceReducer';
+import reducer from './reducer';
 
 export default combineReducers({
-  interfaceReducer
+  reducer
 });

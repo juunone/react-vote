@@ -81,7 +81,9 @@ Card.propTypes = {
   type: PropTypes.string, 
   data: PropTypes.object,
   settingVote: PropTypes.func,
-  endedAt: PropTypes.number
+  endedAt: PropTypes.number,
+  voting: PropTypes.func,
+  resultVote: PropTypes.func
 };
 
 export default Card;

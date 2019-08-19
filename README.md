@@ -1,6 +1,6 @@
 <h1 align="center">Who do you want to vote for? 🙊</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.1.3-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.1.4-blue.svg?cacheSeconds=2592000" />
   <a href="https://travis-ci.com/juunone/react-vote">
     <img src="https://travis-ci.com/juunone/react-vote.svg?branch=master">
   </a>
@@ -38,6 +38,66 @@ yarn dev
 
 ```sh
 yarn build
+```
+
+## Project Tree
+```sh
+|-- public
+    |-- favicon.ico
+    |-- index.html
+|-- src
+    |-- actions
+        |-- ActionTypes.js
+        |-- index.js
+    |-- components
+        |-- common
+            |-- Button.js
+            |-- Card.js
+            |-- FormErrors.js
+            |-- Line.js
+            |-- Modal.js
+            |-- Section.js  
+            |-- Title.js  
+        |-- App.js
+        |-- Footer.js
+        |-- Header.js
+        |-- Main.js
+        |-- Nav.js
+        |-- VoteList.js
+    |-- reducers
+        |-- index.js
+        |-- reducer.js
+    |-- sass
+        |-- base
+            |-- _normalize.scss
+            |-- _reset.scss
+        |-- components
+            |-- _button.scss
+            |-- _card.scss
+            |-- _modal.scss
+            |-- _title.scss
+        |-- layout
+            |-- _footer.scss
+            |-- _header.scss
+            |-- _main.scss
+        |-- styles
+            |-- utils.scss
+        |-- main.scss
+    |-- store
+        |-- indexjs
+    |-- index.js
+|-- .babelrc
+|-- .eslintrc
+|-- .travis.yml
+|-- package.json
+|-- postcss.config.js
+|-- README.md
+|-- server.js
+|-- votes.json
+|-- webpack.common.js
+|-- webpack.dev.js
+|-- webpack.prod.js
+|-- yarn.lock
 ```
 
 ## Author

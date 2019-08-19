@@ -280,7 +280,7 @@ export default class Modal extends Component{
       if(i > 2){
         arr.push(
           <div key={i} className={'remove__contentsWrap'}>
-            <i onClick={()=>{this._deleteContents(this.state.contents[`category-${i+1}`].value, i)}}>
+            <i onClick={()=>{this._deleteContents(this.state.contents[`category-${i+1}`] ? this.state.contents[`category-${i+1}`].value : '', i)}}>
               <FontAwesomeIcon icon={faTimesCircle} size={'1x'} /> 
             </i>
             <input

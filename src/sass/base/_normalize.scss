@@ -58,17 +58,3 @@ a {
 .flr {
   float: right !important;
 }
-
-#react-confirm-alert {
-  .react-confirm-alert-body {
-    width: auto;
-  }
-  .react-confirm-alert-overlay {
-    align-items: baseline;
-    padding-top: 10em;
-    background: none;
-  }
-  .react-confirm-alert-button-group {
-    justify-content: center;
-  }
-}

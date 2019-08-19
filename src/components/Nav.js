@@ -55,9 +55,9 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state) => {
   let obj = {};
 
-  for(let i in state.interfaceReducer){
-    if(state.interfaceReducer.hasOwnProperty(i)){
-      obj[i] = state.interfaceReducer[i]
+  for(let i in state.reducer){
+    if(state.reducer.hasOwnProperty(i)){
+      obj[i] = state.reducer[i]
     }
   }
   return obj;

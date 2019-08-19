@@ -8,19 +8,8 @@ import {
 const intialState = {
   data:[],
   loading: false,
-  error: null,
-  standingData : [],
-  onGoingData : [],
-  closedData : []
+  error: null
 };
-
-const COPY = (obj) => {
-  if (obj !== undefined && obj !== null) {
-    return JSON.parse(JSON.stringify(obj));
-  }
-
-  return null;
-}
 
 const extractData = (res) => {
   const data = res;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faVoteYea } from '@fortawesome/free-solid-svg-icons'
 import Title from './common/Title';
 import Section from './common/Section';
 import Card from './common/Card';
@@ -107,7 +107,7 @@ class VoteList extends Component{
   render(){
     const {standingData, onGoingData, closedData, error , loading} = this.props;
     if (error) {
-      return <div className={'no-data'}>네트워크 오류입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
+      return <div className={'no-data'}>&#x1F6A8;서버 점검중입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
     }
 
     if (loading) {
@@ -118,32 +118,33 @@ class VoteList extends Component{
       return(
         <Section className={'container__section'}>        
           {!!standingData.length && (
-            <div className={"container__row"}>
-              <Title key='title' className="container__title">Standing vote</Title>
+            <div className={"container__row vote__row--standing"}>
+              <Title key='title' className="container__title">&#129304; 대기중인 투표</Title>
               {this._renderData(standingData, 'standing')}
             </div>
           )}
           {!!onGoingData.length && (
-            <div className={"container__row"}>
-              <Title key='title' className="container__title">Ongoing vote</Title>
+            <div className={"container__row vote__row--ongoing"}>
+              <Title key='title' className="container__title">&#x1F525; 진행중인 투표</Title>
               {this._renderData(onGoingData, 'ongoing')}
             </div>
           )}
           {!!closedData.length && (
-            <div className={"container__row"}>
-              <Title key='title' className="container__title">Closed vote</Title>
+            <div className={"container__row vote__row--closed"}>
+              <Title key='title' className="container__title">&#x2705; 종료된 투표</Title>
               {this._renderData(closedData, 'closed')}
             </div>
           )}
         </Section>
       )
+    } else {
+      return(
+        <div className={'no-data'}>
+          <FontAwesomeIcon icon={faVoteYea} size={"2x"} color={"#0072ff"} />
+          <h3><b style={{color:'#0072ff'}}>선한 영향력</b><br />투표를 만들어주세요&#129304;</h3>
+        </div>
+      )
     }
-
-    return(
-      <div>
-        데이터가 없습니다.
-      </div>
-    )
   }
 }
 
@@ -164,9 +165,9 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state) => {
   let obj = {};
 
-  for(let i in state.interfaceReducer){
-    if(state.interfaceReducer.hasOwnProperty(i)){
-      obj[i] = state.interfaceReducer[i]
+  for(let i in state.reducer){
+    if(state.reducer.hasOwnProperty(i)){
+      obj[i] = state.reducer[i]
     }
   }
   return obj;

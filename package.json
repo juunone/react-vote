@@ -1,11 +1,11 @@
 {
   "name": "react-vote",
-  "description": "This is vote system",
-  "version": "1.1.3",
+  "description": "📥This is for 'ALL THE PEOPLES' who want vote",
+  "version": "1.1.4",
   "private": true,
   "author": "juunone",
   "license": "MIT",
-  "homepage": "https://github.com/juunone/react-vote",
+  "homepage": "https://react-vote.netlify.com",
   "main": "index.html",
   "proxy": "http://localhost:9999",
   "scripts": {

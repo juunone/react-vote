@@ -1,6 +1,20 @@
 @import "../styles/utils.scss";
 @import "~open-color/open-color";
 
+#react-confirm-alert {
+  .react-confirm-alert-body {
+    width: auto;
+  }
+  .react-confirm-alert-overlay {
+    align-items: baseline;
+    padding-top: 10vh;
+    background: none;
+  }
+  .react-confirm-alert-button-group {
+    justify-content: center;
+  }
+}
+
 .modal {
   border: 1px solid $border-color-light;
   padding: 0;
