@@ -36,7 +36,7 @@ class VoteList extends Component{
   _settingVote = (type, data) => {    
     return( 
       confirmAlert({
-        closeOnEscape: false,
+        closeOnEscape: true,
         closeOnClickOutside: false,
         customUI: ({ onClose }) => {              
           return (
@@ -56,7 +56,7 @@ class VoteList extends Component{
   _voting = (type, data) => {
     return( 
       confirmAlert({
-        closeOnEscape: false,
+        closeOnEscape: true,
         closeOnClickOutside: false,
         customUI: ({ onClose }) => {              
           return (
