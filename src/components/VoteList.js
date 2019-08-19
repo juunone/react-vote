@@ -107,7 +107,7 @@ class VoteList extends Component{
   render(){
     const {standingData, onGoingData, closedData, error , loading} = this.props;
     if (error) {
-      return <div className={'no-data'}>&#x1F6A8;서버 점검중입니다.<br/><br/>잠시후에 다시 시도해주세요.</div>;
+      return <div className={'no-data'}>&#x1F6A8;네트워크 에러<br/><br/>로컬 환경에서 접속해주세요.</div>;
     }
 
     if (loading) {
