@@ -8,17 +8,20 @@ import {
 const intialState = {
   data:[],
   loading: false,
-  error: null
+  error: null,
+  standingData: [],
+  onGoingData: [],
+  closedData: []
 };
 
 const extractData = (res) => {
   const data = res;
+  let standingData = [];
+  let onGoingData = [];
+  let closedData = [];
+
   if(data && data.length){
     const nowDate = new Date().getTime();
-    let standingData = [];
-    let onGoingData = [];
-    let closedData = [];
-
     data.map(v => {
       if(v.startedAt > nowDate){
         standingData.push(v);
@@ -30,9 +33,9 @@ const extractData = (res) => {
         }
       }
     });
-
-    return { standingData, onGoingData, closedData };
   }
+
+  return { standingData, onGoingData, closedData };
 }
 
 export default (state = intialState, action) => { 

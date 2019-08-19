@@ -114,7 +114,7 @@ class VoteList extends Component{
       return <div className={'no-data'}>Loading <FontAwesomeIcon icon={faSpinner} spin={true} /></div>;
     }
     
-    if(standingData || onGoingData || closedData) {
+    if(standingData.length || onGoingData.length || closedData.length) {
       return(
         <Section className={'container__section'}>        
           {!!standingData.length && (
