@@ -162,17 +162,14 @@ const mapDispatchToProps = dispatch => ({
   _handleFetchData: (method, data, path) => { dispatch(actions.fetchData(method, data, path)) },
 })
 
-const mapStateToProps = (state) => {
-  let obj = {};
-
-  for(let i in state.reducer){
-    if(state.reducer.hasOwnProperty(i)){
-      obj[i] = state.reducer[i]
-    }
-  }
-  return obj;
-};
-
+const mapStateToProps = state => ({
+  closedData: state.reducer.closedData,
+  data: state.reducer.data,
+  error: state.reducer.error,
+  loading: state.reducer.loading,
+  onGoingData: state.reducer.onGoingData,
+  standingData: state.reducer.standingData
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(VoteList);
   

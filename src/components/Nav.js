@@ -9,6 +9,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { confirmAlert } from 'react-confirm-alert';
 
 class Nav extends Component{
+  static propTypes = {
+    _handleFetchData:PropTypes.func.isRequired
+  }
+
   constructor(props){
     super(props);
   }
@@ -52,19 +56,4 @@ const mapDispatchToProps = dispatch => ({
   _handleFetchData: (method, data) => { dispatch(actions.fetchData(method, data)) },
 })
 
-const mapStateToProps = (state) => {
-  let obj = {};
-
-  for(let i in state.reducer){
-    if(state.reducer.hasOwnProperty(i)){
-      obj[i] = state.reducer[i]
-    }
-  }
-  return obj;
-};
-
-Modal.propTypes = {
-  _handleFetchData: PropTypes.func,   
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(null, mapDispatchToProps)(Nav);
