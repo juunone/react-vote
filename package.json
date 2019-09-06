@@ -8,6 +8,9 @@
 	"homepage": "https://react-vote.netlify.com",
 	"main": "index.html",
 	"proxy": "http://localhost:9999",
+	"bugs": {
+		"url": "https://github.com/juunone/react-vote/issues"
+	},
 	"scripts": {
 		"clean": "rimraf dist",
 		"dev": "webpack-dev-server --open --config webpack.dev.js",
