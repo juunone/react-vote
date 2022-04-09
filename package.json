@@ -34,7 +34,7 @@
 		"@fortawesome/free-solid-svg-icons": "^5.9.0",
 		"@fortawesome/react-fontawesome": "^0.1.4",
 		"@hot-loader/react-dom": "^16.9.0-4.12.11",
-		"moment": "^2.24.0",
+		"moment": "^2.29.2",
 		"open-color": "^1.7.0",
 		"react": "^16.8.4",
 		"react-confirm-alert": "^2.4.1",
